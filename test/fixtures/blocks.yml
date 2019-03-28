@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  index: MyString
+  timestamp: MyString
+  proof: MyString
+  previous_hash: MyString
+
+two:
+  index: MyString
+  timestamp: MyString
+  proof: MyString
+  previous_hash: MyString

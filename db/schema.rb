@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190328182412) do
+ActiveRecord::Schema.define(version: 20190409183537) do
 
   create_table "blocks", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string "index"
@@ -19,14 +19,22 @@ ActiveRecord::Schema.define(version: 20190328182412) do
     t.string "previous_hash"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "transactions_count"
+    t.string "transactions_hash"
+    t.string "nonce"
+    t.string "hash"
   end
 
   create_table "transactions", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
-    t.string "sender"
-    t.string "recipient"
-    t.integer "amount"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "from"
+    t.string "to"
+    t.string "what"
+    t.decimal "qty", precision: 10
+    t.bigint "block_id"
+    t.index ["block_id"], name: "index_transactions_on_block_id"
   end
 
+  add_foreign_key "transactions", "blocks"
 end

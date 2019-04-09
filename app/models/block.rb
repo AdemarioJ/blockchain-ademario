@@ -24,7 +24,7 @@ class Block < ApplicationRecord
                 @timestamp.to_s +
                 @transactions_count.to_s +
                 @transactions.to_s +
-                @previous_hash )
+                @previous_hash.to_s )
     sha.hexdigest
     end
 

@@ -1,2 +1,13 @@
-<h1>Blockchain#show</h1>
-<p>Find me in app/views/blockchain/show.html.erb</p>
+<h1>Blockchain</h1>
+<% @blockchain.each do | block | %>
+    <tr>
+        <td><%= block.index%></td>
+        <td><%= block.timestamp%></td>
+        <td><%= block.previous_hash%></td>
+        <td><%= block.created_at%></td>
+        <td><%= block.transactions_count%></td>
+        <td><%= block.transactions_hash%></td>
+        <td><%= block.nonce%></td>
+        <td><%= block.hash%></td>
+    </tr>
+<% end %>

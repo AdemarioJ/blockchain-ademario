@@ -1,13 +1,13 @@
 <h1>Blockchain</h1>
 <% @blockchain.each do | block | %>
-    <tr>
-        <td><%= block.index%></td>
-        <td><%= block.timestamp%></td>
-        <td><%= block.previous_hash%></td>
-        <td><%= block.created_at%></td>
-        <td><%= block.transactions_count%></td>
-        <td><%= block.transactions_hash%></td>
-        <td><%= block.nonce%></td>
-        <td><%= block.hash%></td>
-    </tr>
+    <ul>
+        <li><%= block.index%></li>
+        <li><%= block.timestamp%></li>
+        <li><%= block.previous_hash%></li>
+        <li><%= block.created_at%></li>
+        <li><%= block.transactions_count%></li>
+        <li><%= block.transactions_hash%></li>
+        <li><%= block.nonce%></li>
+        <li><%= block.hash%></li>
+    </ul>
 <% end %>

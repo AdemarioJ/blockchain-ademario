@@ -52,3 +52,7 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 gem 'merkletree', '~> 0.1.0'
 
 gem 'safe_attributes'
+
+gem 'materialize-sass', '~> 0.100.2'
+gem 'will_paginate'
+gem 'will_paginate-materialize'

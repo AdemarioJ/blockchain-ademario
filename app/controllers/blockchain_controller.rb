@@ -1,40 +1,48 @@
 class BlockchainController < ApplicationController
   
+  def blockchain
+    blockchain = Transaction.new
+  end
+
   def index
-    trasaction = Transaction.new
-    b0 = trasaction.first([
-      { from: "Ademario", to: "Wagner", what: "A compra de um sapato.", qty: 10 },
-      { from: "Wagner",  to: "Marcos",    what: "Jogo de Computador",    qty: 7 }] )
-    
-    b1 = trasaction.next( b0,
-      [{ from: "Flowers", to: "Ruben", what: "Tulip Admiral van Eijck",  qty: 5 },
-      { from: "Vicent",  to: "Anne",  what: "Tulip Bloemendaal Sunset", qty: 3 },
-      { from: "Anne",    to: "Julia", what: "Tulip Semper Augustus",    qty: 1 },
-      { from: "Julia",   to: "Luuk",  what: "Tulip Semper Augustus",    qty: 1 }] )
-    
-    b2 = trasaction.next( b1,
-      [{ from: "Bloom & Blossom", to: "Daisy",   what: "Tulip Admiral of Admirals", qty: 8 },
-      { from: "Vincent",         to: "Max",     what: "Tulip Bloemendaal Sunset",  qty: 2 },
-      { from: "Anne",            to: "Martijn", what: "Tulip Semper Augustus",     qty: 2 },
-      { from: "Ruben",           to: "Julia",   what: "Tulip Admiral van Eijck",   qty: 2 }] )
-    
-    b3 = trasaction.next( b2,
-      [{ from: "Teleflora", to: "Max",     what: "Tulip Red Impression",      qty: 11 },
-      { from: "Anne",      to: "Naomi",   what: "Tulip Bloemendaal Sunset",  qty: 1  },
-      { from: "Daisy",     to: "Vincent", what: "Tulip Admiral of Admirals", qty: 3  },
-      { from: "Julia",     to: "Mina",    what: "Tulip Admiral van Eijck",   qty: 1  }] )
     
   end
 
-  def new
+  def edit
+    @blockchain = Transaction.find(params[:id])
+  end
   
+  # GET /blockchain/new
+  def new
+    @blockchain = Transaction.new
   end
 
   def create
-  
+    @blockchain = Transaction.new(blockchain_params)
+    fist_transaction = Transaction.all
+
+    if fist_transaction.count == 0
+      @blockchain.first([blockchain_params])
+    else
+      @blockchain.next( Block.last.index,[blockchain_params])
+    end
+
   end
 
   def show
-    @blockchain = Blocks.all 
+    @blockchain = Block.all 
   end
+  
+  private
+
+    def set_blockchain
+      @blockchain = Transaction.find(params[:id])
+    end
+
+    # Never trust parameters from the scary internet, only allow the white list through.
+    def blockchain_params
+      params.require(:transaction).permit(:from, :to, :what, :qty, :block_id)
+      #params.require(:blockchain).permit(:from, :to, :what, :qty)
+    end
+  
 end

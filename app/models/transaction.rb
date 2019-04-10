@@ -42,9 +42,11 @@ class Transaction < ApplicationRecord
 
     if nonce     ## restore pre-computed/mined block (from disk/cache/db/etc.)
       ## todo: check timestamp MUST NOT be nil
+      puts "Nonce 1 = #{nonce}"
       block.nonce = nonce
       block.hash = calc_hash
     else   ## new block  (mine! e.g. find nonce - "lucky" number used once)
+      puts "Nonce 2 = #{nonce}"
       block.nonce, block.hash = block.compute_hash_with_proof_of_work
     end
 

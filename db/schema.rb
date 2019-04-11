@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190411163657) do
+ActiveRecord::Schema.define(version: 20190411233027) do
 
   create_table "blocks", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string "index"
@@ -19,10 +19,10 @@ ActiveRecord::Schema.define(version: 20190411163657) do
     t.string "previous_hash"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "transactions_count"
     t.string "transactions_hash"
     t.string "nonce"
     t.string "hash_id"
+    t.integer "transaction_count"
   end
 
   create_table "transactions", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|

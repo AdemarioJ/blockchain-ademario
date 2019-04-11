@@ -41,7 +41,7 @@ class Transaction < ApplicationRecord
     block = Block.new
     block.index = index.to_s
     block.timestamp = timestamp
-    block.transactions_count = transactions.size
+    block.transaction_count = transactions.size
     block.previous_hash = previous_hash
     
     block.transactions_hash = transactions.empty? ? '0' : MerkleTree.compute_root_for( transactions )
@@ -56,8 +56,8 @@ class Transaction < ApplicationRecord
 
       puts"Calc_nonce = #{calc_hash}"
     else   ## new block  (mine! e.g. find nonce - "lucky" number used once)
-      puts "Nonce 2 = #{block.compute_hash_with_proof_of_work}"
-      block.nonce, block.hash_id = block.compute_hash_with_proof_of_work
+      puts "Nonce 2 = #{block.compute_hash_with_proof_of_work(block)}"
+      block.nonce, block.hash_id = block.compute_hash_with_proof_of_work(block)
     end
 
     if block.save!

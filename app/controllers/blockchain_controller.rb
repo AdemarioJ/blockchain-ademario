@@ -38,7 +38,6 @@ class BlockchainController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def blockchain_params
       params.require(:transaction).permit(:from, :to, :what, :qty, :block_id)
-      #params.require(:blockchain).permit(:from, :to, :what, :qty)
     end
   
 end

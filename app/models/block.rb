@@ -5,10 +5,10 @@ class Block < ApplicationRecord
 
     has_many :transactions
     
-    def compute_hash_with_proof_of_work( difficulty="00" )
+    def compute_hash_with_proof_of_work( block, difficulty="00" )
         nonce = 0
         loop do
-          hash = calc_hash_with_nonce( nonce )
+          hash = calc_hash_with_nonce( block, nonce )
           if hash.start_with?( difficulty )
             return [nonce,hash]    ## Bingo! prova de trabalho se hash começa com zeros à esquerda (00)
           else
@@ -17,14 +17,14 @@ class Block < ApplicationRecord
         end
     end
     
-    def calc_hash_with_nonce( nonce=0 )
+    def calc_hash_with_nonce( block, nonce=0 )
     sha = Digest::SHA256.new
     sha.update( nonce.to_s +
-                @index.to_s +
-                @timestamp.to_s +
-                @transactions_count.to_s +
-                @transactions.to_s +
-                @previous_hash.to_s )
+                block.index.to_s +
+                block.timestamp.to_s +
+                block.transaction_count.to_s +
+                block.transactions.to_s +
+                block.previous_hash.to_s )
     sha.hexdigest
     end
 

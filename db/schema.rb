@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190410174218) do
+ActiveRecord::Schema.define(version: 20190411163657) do
 
   create_table "blocks", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string "index"
@@ -22,16 +22,7 @@ ActiveRecord::Schema.define(version: 20190410174218) do
     t.string "transactions_count"
     t.string "transactions_hash"
     t.string "nonce"
-    t.string "hash"
-  end
-
-  create_table "network_blockchains", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
-    t.bigint "block_id"
-    t.string "previus_hash"
-    t.string "hash"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["block_id"], name: "index_network_blockchains_on_block_id"
+    t.string "hash_id"
   end
 
   create_table "transactions", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
@@ -45,6 +36,5 @@ ActiveRecord::Schema.define(version: 20190410174218) do
     t.index ["block_id"], name: "index_transactions_on_block_id"
   end
 
-  add_foreign_key "network_blockchains", "blocks"
   add_foreign_key "transactions", "blocks"
 end

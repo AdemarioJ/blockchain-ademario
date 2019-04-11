@@ -23,8 +23,14 @@ class Transaction < ApplicationRecord
       else
         transactions = args      ## use "auto-wrapped" splat array
       end
-      
-      new_block( Block.last.index.to_i+1, transactions,  Block.last.hash, timestamp: Time.now.utc )
+
+      puts"Timestamp = #{previous.timestamp}"
+      puts"Previous_hash = #{previous.previous_hash}"
+      puts"Hash = #{previous.hash_id}"
+      puts"Transaction_hash = #{previous.transactions_hash}"
+      puts"Nonce = #{previous.nonce}"
+
+      new_block( previous.index.to_i+1, transactions,  previous.hash_id, timestamp: Time.now.utc )
 
   end
 
@@ -40,14 +46,18 @@ class Transaction < ApplicationRecord
     
     block.transactions_hash = transactions.empty? ? '0' : MerkleTree.compute_root_for( transactions )
 
+    puts "-----------------------------  #{nonce}  ------------------------"
+
     if nonce     ## restore pre-computed/mined block (from disk/cache/db/etc.)
       ## todo: check timestamp MUST NOT be nil
       puts "Nonce 1 = #{nonce}"
       block.nonce = nonce
-      block.hash = calc_hash
+      block.hash_id = calc_hash
+
+      puts"Calc_nonce = #{calc_hash}"
     else   ## new block  (mine! e.g. find nonce - "lucky" number used once)
-      puts "Nonce 2 = #{nonce}"
-      block.nonce, block.hash = block.compute_hash_with_proof_of_work
+      puts "Nonce 2 = #{block.compute_hash_with_proof_of_work}"
+      block.nonce, block.hash_id = block.compute_hash_with_proof_of_work
     end
 
     if block.save!

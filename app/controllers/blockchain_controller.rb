@@ -1,8 +1,4 @@
 class BlockchainController < ApplicationController
-  
-  def blockchain
-    blockchain = Transaction.new
-  end
 
   def index
     
@@ -24,7 +20,7 @@ class BlockchainController < ApplicationController
     if fist_transaction.count == 0
       @blockchain.first([blockchain_params])
     else
-      @blockchain.next( Block.last.index,[blockchain_params])
+      @blockchain.next( Block.last,[blockchain_params])
     end
 
   end

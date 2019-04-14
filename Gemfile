@@ -53,6 +53,14 @@ gem 'merkletree', '~> 0.1.0'
 
 gem 'safe_attributes'
 
+# gems para layout
+gem 'jquery-rails'
 gem 'materialize-sass', '~> 0.100.2'
 gem 'will_paginate'
 gem 'will_paginate-materialize'
+gem 'bootstrap', '~> 4.3.1'
+
+# gems para gerar QRcode
+gem 'rqrcode', '~> 0.10.1'
+
+

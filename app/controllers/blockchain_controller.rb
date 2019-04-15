@@ -1,5 +1,4 @@
 class BlockchainController < ApplicationController
-
   require 'rqrcode'
   require 'io/console'
 
@@ -28,28 +27,8 @@ class BlockchainController < ApplicationController
 
   end
   
-  def QRcode(code)
-    # With default options specified explicitly
-    qrcode = RQRCode::QRCode.new(code.to_s)
-    qrcode.as_png(
-      resize_gte_to: false,
-      resize_exactly_to: false,
-      fill: 'white',
-      color: 'black',
-      size: 240,
-      border_modules: 4,
-      module_px_size: 6,
-      file: "QRcode.png" )
-
-
-    return @qr = RQRCode::QRCode.new( code.to_s, :size => 4, :level => :h )
-  end
-
   def show
     @blockchain = Block.all 
-    
-    qrcode = "ADEMÁRIO JOSÉ DA SILVA"
-    @qr = QRcode(qrcode)
   end
   
   private

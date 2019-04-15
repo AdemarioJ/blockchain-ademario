@@ -62,5 +62,7 @@ gem 'bootstrap', '~> 4.3.1'
 
 # gems para gerar QRcode
 gem 'rqrcode', '~> 0.10.1'
+gem 'rqrcode_png'
+
 
 

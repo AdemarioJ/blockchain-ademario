@@ -19,6 +19,7 @@ ActiveRecord::Schema.define(version: 20190411233027) do
     t.string "previous_hash"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "transactions_count"
     t.string "transactions_hash"
     t.string "nonce"
     t.string "hash_id"

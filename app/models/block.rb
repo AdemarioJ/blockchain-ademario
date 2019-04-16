@@ -5,7 +5,8 @@ class Block < ApplicationRecord
 
     has_many :transactions
     
-    def compute_hash_with_proof_of_work( block, difficulty="00" )
+    # Mineração
+    def compute_hash_with_proof_of_work( block, difficulty="0000" )
         nonce = 0
         loop do
           hash = calc_hash_with_nonce( block, nonce )
@@ -17,6 +18,7 @@ class Block < ApplicationRecord
         end
     end
     
+    #Calcula a Hash do bloco
     def calc_hash_with_nonce( block, nonce=0 )
     sha = Digest::SHA256.new
     sha.update( nonce.to_s +

@@ -33,5 +33,10 @@ class Blockchain < ApplicationRecord
     end
   end
 
+  
+  def generate_block_genesis(block)
+    puts "Genesis"
+  end
+
 
 end

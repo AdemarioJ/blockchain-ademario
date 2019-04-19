@@ -1,6 +1,5 @@
 class Block < ApplicationRecord
 
-    require "merkletree"
     require "digest"    # para função de resumo de soma de verificação de hash SHA256
 
     has_many :transactions

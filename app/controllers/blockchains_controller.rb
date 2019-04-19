@@ -1,0 +1,3 @@
+class BlockchainsController < ApplicationController
+    
+end

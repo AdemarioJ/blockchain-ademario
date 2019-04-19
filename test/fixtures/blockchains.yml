@@ -1,0 +1,17 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  index: MyString
+  hash_id: MyString
+  previous_hash: MyString
+  transactions_hash: MyString
+  transaction_count: 1
+  nonce: 1
+
+two:
+  index: MyString
+  hash_id: MyString
+  previous_hash: MyString
+  transactions_hash: MyString
+  transaction_count: 1
+  nonce: 1

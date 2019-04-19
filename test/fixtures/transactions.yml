@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  from: MyString
+  to: MyString
+  what: MyString
+  qty: MyString
+  block: one
+
+two:
+  from: MyString
+  to: MyString
+  what: MyString
+  qty: MyString
+  block: two

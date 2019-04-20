@@ -3,7 +3,7 @@
 <% @blockchain.each do | block | %>
     
     <div class="row">
-        <div class="col s6">
+        <div class="col s4">
             <ul>
                 <li><b>Index:</b> <%= block.index%></li>
                 <li><b>Timestamp: </b><%= block.created_at%></li>
@@ -15,8 +15,19 @@
                 <li><b>Hash_id: </b><%= block.hash_id%></li>
             </ul>
         </div>
+        <div class="col s4">
 
-        <div class="col s6">
+        <% transactions = transactions_web(block.hash_id) %>
+            <% transactions.each do | transaction | %>
+                <li><b>De: </b><%= transaction.from%></li>
+                <li><b>Para: </b><%= transaction.to%></li>
+                <li><b>Quem: </b><%= transaction.what%></li>
+                <li><b>Valor: </b><%= transaction.qty%></li>
+                <li><b>Grupo: </b><%= transaction.block.group%></li>
+            <% end %>
+        </div>
+
+        <div class="col s4">
             <% qrcode = qrcode(block.hash_id) %>
             <%= image_tag qrcode %>
         </div>

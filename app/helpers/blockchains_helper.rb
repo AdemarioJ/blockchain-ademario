@@ -18,6 +18,22 @@ module BlockchainsHelper
 
         #Cria a o QRcode
         @qr = RQRCode::QRCode.new(code.to_s).to_img.resize(200, 200).to_data_url
+    end
+
+    def transactions_web(hash)
+      
+      groups = Blockchain.where("hash_id = ?", hash )
+      block = Block.all.where("blocks.id = ?", groups[0].block_id)
+      blocks = Block.all.where("blocks.group = ?", block[0].group)
+
+      transactions = []
+
+      blocks.each do |block|
+        transaction = Transaction.where("block_id = ?", block.id)
+        transactions << transaction[0]
       end
+
+      return transactions
+    end
 
 end

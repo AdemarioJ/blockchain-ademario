@@ -1,5 +1,6 @@
 class Blockchain < ApplicationRecord
-      
+  
+
   #Calcula a Hash do bloco
   def calc_hash_with_nonce( block, transactions , transactions_count, previous_hash, nonce=0 )
     sha = Digest::SHA256.new
@@ -19,7 +20,7 @@ class Blockchain < ApplicationRecord
     sha.hexdigest
   end
 
-    # Mineração
+  # Mineração
   def compute_proof_of_work( block, transactions, transactions_count, previous_hash, difficulty="0000" )
     nonce = 0
     loop do
@@ -33,9 +34,39 @@ class Blockchain < ApplicationRecord
     end
   end
 
-  
-  def generate_block_genesis(block)
-    puts "Genesis"
+  # Válidação do bloco
+  def self.validation_block(block)
+    blockchain = Blockchain.new 
+    previous_hash = Blockchain.last
+    transactions = Transaction.where("block_id = ?", block.id)
+    transactions_count = transactions.count
+    blockchain = blockchain.compute_proof_of_work(block, transactions, transactions_count, previous_hash) #Gera uma Hash de identificação do bloco
+    if blockchain[0]
+      #Inserindo na blockchain
+      new_block_in_blockchain = Blockchain.set_block_in_blockchain(block, transactions, transactions_count, blockchain)
+      return new_block_in_blockchain
+    else
+      return new_block_in_blockchain
+    end
+  end
+
+  # Inserindo novo bloco na blockchain
+  def self.set_block_in_blockchain(block, transactions, transaction_count, blockchain)
+    create_blockchain = Blockchain.new
+    create_blockchain.index = Block.last.nil? ? '0' : (Block.last.index.to_i + 1).to_s
+    create_blockchain.hash_id = blockchain[2]
+    create_blockchain.previous_hash = Blockchain.last.nil? ? '0' : Blockchain.last.hash_id
+    create_blockchain.transactions_hash = Transaction.generate_transactions_hash(transactions)
+    create_blockchain.transaction_count = transaction_count
+    create_blockchain.nonce = blockchain[1]
+    create_blockchain.timestamp = block.created_at
+    create_blockchain.block_id = block.id
+
+    if create_blockchain.save!
+      return [true, create_blockchain]
+    else
+      return [false]
+    end
   end
 
 

@@ -5,7 +5,7 @@ Rails.application.routes.draw do
   resources :blockchains, only: [:show, :create, :new]
 
   get 'blockchain', to: 'blockchains#index'
-  post 'validation', to: 'blockchains#validation_block'
+  post 'update_informations', to: 'blockchains#update_informations'
+  post 'get_transactions', to: 'blockchains#get_transactions_block'
 
-  
 end

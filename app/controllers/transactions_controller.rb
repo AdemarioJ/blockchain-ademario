@@ -18,7 +18,7 @@ class TransactionsController < ApplicationController
     def create
       @block = Block.new
       fist_transaction = Block.all
-  
+
       if fist_transaction.count == 0
         @block = @block.first( [transaction_params] )
         new_block_in_blockchain = Blockchain.validation_block( @block )
@@ -26,7 +26,7 @@ class TransactionsController < ApplicationController
         verification_result(new_block_in_blockchain)
 
       else
-        @block = @block.next( Block.last,[transaction_params] )
+        @block = @block.next( Block.last, [transaction_params] )
         new_block_in_blockchain = Blockchain.validation_block( @block )
 
         verification_result(new_block_in_blockchain)

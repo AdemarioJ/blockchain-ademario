@@ -12,14 +12,14 @@ class BlockchainsController < ApplicationController
     error_msg = validation_informations(informations)
 
     if error_msg.length == 0
-
-        groups = Block.joins(:blockchains).where("blocks.hash_id = ?", informations["hash_id"] )
+        blocks = Blockchain.find_by("hash_id = ?", informations["hash_id"])
+        groups = Block.joins(:blockchains).where("blocks.id = ?", blocks.block_id )
         blockchain = Blockchain.new
         @block = Block.new
-        @block = @block.next( Block.last,[informations["transaction"]], groups[0].group )
+        @block = @block.next( Block.last, [informations["transaction"]], groups[0].group )
         new_block_in_blockchain = Blockchain.validation_block( @block )
         verification_result(new_block_in_blockchain)
-    
+
     else
       json_response(error_msg, :unprocessable_entity)
     end

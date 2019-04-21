@@ -19,7 +19,7 @@ class Block < ApplicationRecord
   
     end
     
-    def next( previous, args, group: nil )
+    def next( previous, args, group = nil )
         ## note: allow/support splat-* for now for convenience (auto-wraps args into array)
         if args.size == 1 && args[0].is_a?( Array )
           transactions = args[0]   ## "unwrap" array in array
@@ -27,32 +27,31 @@ class Block < ApplicationRecord
           transactions = args      ## use "auto-wrapped" splat array
         end
 
-        if group.present?
-          new_block( previous.index.to_i+1, transactions, group )
+        if group.nil?
+          new_block( previous.index.to_i+1, transactions )
 
         else
-          new_block( previous.index.to_i+1, transactions )
+          new_block( previous.index.to_i+1, transactions, group )
 
         end
   
     end
 
-    def new_block( index, transactions, nonce: nil, group: nil )
-  
+    def new_block( index, transactions, group = nil )
+      
         block = Block.new
         block.index = index.to_s
         block.amount_transaction = 20        
         block.hash_id = block.calc_hash(block)
 
-        if group.present?
-          block.group = group
+        if group.nil?
+          block.group = Block.last.nil? ? '0' : (Block.last.group.to_i + 1).to_s
 
         else
-          block.group = Block.last.nil? ? '0' : (Block.last.group.to_i + 1).to_s
+          block.group = group
 
         end
         
-
         if block.save!
           puts"Novo bloco adicionado!"
         end

@@ -129,7 +129,7 @@ class BlockchainsController < ApplicationController
         return json_response(response)  
       end
 
-      response = { status:blockchain[0], blockchain: blockchain[1] }
+      response = { status:blockchain[0], blockchain: jsonBlockchain(blockchain[1]) }
       json_response(response)
     end
 
@@ -152,6 +152,23 @@ class BlockchainsController < ApplicationController
       end
 
       return transactions
+    end
+
+    def jsonBlockchain(block)
+        block = {
+          "id": block.id,
+          "index": block.index,
+          "hash_id": block.hash_id,
+          "previous_hash": block.previous_hash,
+          "transactions_hash": block.transactions_hash,
+          "transaction_count": block.transaction_count,
+          "nonce": block.nonce,
+          "created_at": block.created_at,
+          "updated_at": block.updated_at,
+          "timestamp": block.timestamp,
+          "block_id": block.block_id
+        }
+      
     end
 
 end

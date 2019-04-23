@@ -78,21 +78,6 @@ class Block < ApplicationRecord
         
       end
 
-    
-    # Mineração
-    #def compute_hash_with_proof_of_work( block, difficulty="0000" )
-     #   nonce = 0
-   #      loop do
-      #      hash = calc_hash_with_nonce( block, nonce )
-    #         if hash.start_with?( difficulty )
-     #        return [nonce,hash]    ## Bingo! prova de trabalho se hash começa com zeros à esquerda (00)
-   #          else
-    #         nonce += 1             ## continue tentando (e tentando e tentando)
-    #         end
-  #       end
-   #  end
-
-    #Calcula a Hash do bloco
   def calc_hash( block, nonce=0 )
       sha = Digest::SHA256.new
       timestamps = Time.now.utc

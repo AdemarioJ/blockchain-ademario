@@ -68,24 +68,6 @@ class BlockchainsController < ApplicationController
 
   private
 
-    def set_block_in_blockchain(block, transactions, transaction_count, blockchain)
-      create_blockchain = Blockchain.new
-      create_blockchain.index = Block.last.nil? ? '0' : (Block.last.index.to_i + 1).to_s
-      create_blockchain.hash_id = blockchain[2]
-      create_blockchain.previous_hash = Blockchain.last.nil? ? '0' : Blockchain.last.hash_id
-      create_blockchain.transactions_hash = Transaction.generate_transactions_hash(transactions)
-      create_blockchain.transaction_count = transaction_count
-      create_blockchain.nonce = blockchain[1]
-      create_blockchain.timestamp = block.created_at
-      create_blockchain.block_id = block.id
-
-      if create_blockchain.save!
-        return [true, create_blockchain]
-      else
-        return [false]
-      end
-    end
-
     def set_blockchain
       @blockchain = Blockchain.find(params[:id])
     end

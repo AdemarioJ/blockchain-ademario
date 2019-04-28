@@ -1,36 +1,56 @@
-<h1>Blockchain</h1>
-
-<% @blockchain.each do | block | %>
-    
-    <div class="row">
-        <div class="col s4">
-            <ul>
-                <li><b>Index:</b> <%= block.index%></li>
-                <li><b>Timestamp: </b><%= block.created_at%></li>
-                <li><b>Previous_hash: </b><%= block.previous_hash%></li>
-                <li><b>Created_at: </b><%= block.created_at%></li>
-                <li><b>Transaction_count: </b><%= block.transaction_count%></li>
-                <li><b>Transactions_hash: </b><%= block.transactions_hash%></li>
-                <li><b>Nonce: </b><%= block.nonce%></li>
-                <li><b>Hash_id: </b><%= block.hash_id%></li>
-            </ul>
-        </div>
-        <div class="col s4">
-
-        <% transactions = transactions_web(block.hash_id) %>
-            <% transactions.each do | transaction | %>
-                <li><b>De: </b><%= transaction.from%></li>
-                <li><b>Para: </b><%= transaction.to%></li>
-                <li><b>Quem: </b><%= transaction.what%></li>
-                <li><b>Valor: </b><%= transaction.qty%></li>
-                <li><b>Grupo: </b><%= transaction.block.group%></li>
-            <% end %>
-        </div>
-
-        <div class="col s4">
-            <% qrcode = qrcode(block.hash_id) %>
-            <%= image_tag qrcode %>
-        </div>
-        
+<form>
+    <div>
+        <h1>Blockchain</h1>
     </div>
-<% end %>
+
+    <% @blockchain.each do | block | %>
+
+        <div class="container" style="ali">
+            <div class="card" style="margin-top:20px">
+                <div class="card-body" style="background:#ffd959; box-shadow: 0 2px 4px 0 rgba(0,0,0,0.16),0 2px 10px 0 rgba(0,0,0,0.12)!important;" >
+                    <div class="form-group row">
+
+                        <div class="form-group col-md-6">
+                            <ul>
+                                <h5> Informações do bloco </h5>
+                                <li><b>Index:</b> <%= block.index%></li>
+                                <li><b>Timestamp: </b><%= block.created_at%></li>
+                                <li><b>Previous_hash: </b><%= block.previous_hash%></li>
+                                <li><b>Created_at: </b><%= block.created_at%></li>
+                                <li><b>Transaction_count: </b><%= block.transaction_count%></li>
+                                <li><b>Transactions_hash: </b><%= block.transactions_hash%></li>
+                                <li><b>Nonce: </b><%= block.nonce%></li>
+                                <li><b>Hash_id: </b><%= block.hash_id%></li>
+                            </ul>
+                        </div>
+
+                        <% transactions = transactions_web(block.hash_id) %>
+                        <div class="form-group col-md-3">
+                            <ul><h5> Operações </h5></ul>
+                            <% transactions.each do | transaction | %>
+                                <ul>
+                                    <li><b>De: </b><%= transaction.from%></li>
+                                    <li><b>Para: </b><%= transaction.to%></li>
+                                    <li><b>Quem: </b><%= transaction.what%></li>
+                                    <li><b>Valor: </b><%= transaction.qty%></li>
+                                    <li><b>Grupo: </b><%= transaction.block.group%></li>
+                                </ul>
+                            <% end %>
+                        </div>
+
+                        <% qrcode = qrcode(block.hash_id) %>
+                        
+                        <div class="form-group col-md-3">
+                            <div class="card">
+                                <div class="card-body">
+                                    <%= image_tag qrcode class:"card-img-bottom", alt:"Card image", style:"width:100%; justify-content: center; "%>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    <% end %>
+</form>

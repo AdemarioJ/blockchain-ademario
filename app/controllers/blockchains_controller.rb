@@ -2,7 +2,7 @@ class BlockchainsController < ApplicationController
   skip_before_action :verify_authenticity_token, :only => [:update_informations, :get_transactions_block, :show]
 
   def index
-    @blockchain = Blockchain.all
+    @blockchain = Blockchain.all.order(created_at: :desc)
   end
 
   #Validação do bloco

@@ -25,9 +25,10 @@
                         </div>
 
                         <% transactions = transactions_web(block.hash_id) %>
+
                         <div class="form-group col-md-3">
-                            <ul><h5> Operações </h5></ul>
-                            <% transactions.each do | transaction | %>
+                            <ul><h5> Ultima Operação </h5></ul>
+                            <% transactions.take(1).each do | transaction | %>
                                 <ul>
                                     <li><b>De: </b><%= transaction.from%></li>
                                     <li><b>Para: </b><%= transaction.to%></li>
@@ -35,6 +36,11 @@
                                     <li><b>Valor: </b><%= transaction.qty%></li>
                                     <li><b>Grupo: </b><%= transaction.block.group%></li>
                                 </ul>
+
+                                <!-- Button to Open the Modal -->
+                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
+                                    Open modal
+                                </button>
                             <% end %>
                         </div>
 
@@ -50,7 +56,53 @@
                     </div>
                 </div>
             </div>
+        </div> 
+        <!-- The Modal -->
+        <div class="modal fade" id="myModal">
+            <div class="modal-dialog">
+            <div class="modal-content">
+            
+                <!-- Modal Header -->
+                <div class="modal-header">
+                <h4 class="modal-title">Operações</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                
+                <!-- Modal body -->
+                <div class="modal-body">
+                    <% transactions.each do | transaction | %>
+                        <ul>
+                            <li><b>De: </b><%= transaction.from%></li>
+                            <li><b>Para: </b><%= transaction.to%></li>
+                            <li><b>Quem: </b><%= transaction.what%></li>
+                            <li><b>Valor: </b><%= transaction.qty%></li>
+                            <li><b>Grupo: </b><%= transaction.block.group%></li>
+                        </ul>
+                    <%end%>
+                </div>
+                
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                </div>
+                
+            </div>
+            </div>
         </div>
 
     <% end %>
 </form>
+
+<script>
+"<% @blockchain.take(2).each do | block | %>"
+    console.log("-----", "<% transactions = transactions_web(block.hash_id) %>" );
+    "<% transactions.each do | transaction | %>"
+        console.log("-----", "<%= transaction.from %>" );
+        console.log("-----", "<%= transaction.to %>" );
+        console.log("-----", "<%= transaction.what %>" );
+        console.log("-----", "<%= transaction.qty %>" );
+        console.log("-----", "<%= transaction.block.group %>" );
+    "<% end %>"
+    console.log("-----", "FIM" );
+"<% end %>"    
+</script>

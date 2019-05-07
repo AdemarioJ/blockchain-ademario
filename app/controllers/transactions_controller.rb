@@ -55,12 +55,19 @@ class TransactionsController < ApplicationController
       end
 
       def verification_result(blockchain)
-        unless blockchain[0]
-          response = { status:false, message: "Bloco não foi válidado!"}
-          return json_response(response)  
-        end
+        #unless blockchain[0]
+          #response = { status:false, message: "Bloco não foi válidado!"}
+          #return json_response(response)  
+        #end
 
-        response = { status:blockchain[0], blockchain: blockchain[1] }
-        json_response(response)
+        #response = { status:blockchain[0], blockchain: blockchain[1] }
+        #json_response(response)
+        if blockchain[0]
+          redirect_to '/blockchain', notice: 'Cadastrado com sucesso!'
+
+        else          
+          redirect_to '/blockchain', alert: 'Erro ao validar cadastro!'
+        end
+      
       end
 end

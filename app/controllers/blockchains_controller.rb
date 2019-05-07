@@ -3,6 +3,8 @@ class BlockchainsController < ApplicationController
 
   def index
     @blockchain = Blockchain.all.order(created_at: :desc)
+    @blockchain = @blockchain.paginate(:page => params[:page], :per_page => 6);
+
   end
 
   #Validação do bloco

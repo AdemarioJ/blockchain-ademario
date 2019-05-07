@@ -35,12 +35,10 @@
                                     <li><b>Quem: </b><%= transaction.what%></li>
                                     <li><b>Valor: </b><%= transaction.qty%></li>
                                     <li><b>Grupo: </b><%= transaction.block.group%></li>
-                                </ul>
+                                                                    <!-- Button to Open the Modal -->
+                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal-attachment<%= block.hash_id.to_s %>">Ver mais</button>
 
-                                <!-- Button to Open the Modal -->
-                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
-                                    Open modal
-                                </button>
+                                </ul>
                             <% end %>
                         </div>
 
@@ -58,7 +56,7 @@
             </div>
         </div> 
         <!-- The Modal -->
-        <div class="modal fade" id="myModal">
+        <div class="modal fade" id="modal-attachment<%= block.hash_id.to_s %>">
             <div class="modal-dialog">
             <div class="modal-content">
             
@@ -91,18 +89,6 @@
         </div>
 
     <% end %>
+    
+    <%= will_paginate @blockchain, list_classes: %w(pagination justify-content-end) %>
 </form>
-
-<script>
-"<% @blockchain.take(2).each do | block | %>"
-    console.log("-----", "<% transactions = transactions_web(block.hash_id) %>" );
-    "<% transactions.each do | transaction | %>"
-        console.log("-----", "<%= transaction.from %>" );
-        console.log("-----", "<%= transaction.to %>" );
-        console.log("-----", "<%= transaction.what %>" );
-        console.log("-----", "<%= transaction.qty %>" );
-        console.log("-----", "<%= transaction.block.group %>" );
-    "<% end %>"
-    console.log("-----", "FIM" );
-"<% end %>"    
-</script>

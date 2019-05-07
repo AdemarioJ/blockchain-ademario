@@ -57,7 +57,7 @@ gem 'safe_attributes'
 gem 'jquery-rails'
 gem 'materialize-sass', '~> 0.100.2'
 gem 'will_paginate'
-gem 'will_paginate-materialize'
+gem 'will_paginate-bootstrap4'
 gem 'bootstrap', '~> 4.3.1'
 
 # gems para gerar QRcode

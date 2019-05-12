@@ -13,6 +13,8 @@ class BlockchainsController < ApplicationController
     informations = params["informations"] 
     error_msg = validation_informations(informations)
 
+    p "---------------------- #{error_msg} ----------------------"
+
     if error_msg.length == 0
         blocks = Blockchain.find_by("hash_id = ?", informations["hash_id"])
         groups = Block.joins(:blockchains).where("blocks.id = ?", blocks.block_id )
@@ -66,8 +68,6 @@ class BlockchainsController < ApplicationController
     end
   end
 
-
-
   private
 
     def set_blockchain
@@ -76,7 +76,7 @@ class BlockchainsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def blockchain_params
-      params.require(:blockchain).permit(:from, :to, :what, :qty, :block_id)
+      params.require(:blockchain).permit(:from, :to, :what, :qty, :block_id, :latitude, :longitude, :pais, :uf, :cidade, :bairro, :rua, :cep, :numero, :data, :horario, :endereco)
     end
 
     def validation_informations(parameters)
@@ -84,11 +84,6 @@ class BlockchainsController < ApplicationController
       #Validando as informações
       error_msg = ""
       error_msg += "Informe o hash_id" unless parameters["hash_id"].present?
-      error_msg += "Informe o de quem é o queijo!" unless parameters["transaction"]["from"].present?
-      error_msg += "Informe para quem vai o queijo!" unless parameters["transaction"]["to"].present?
-      error_msg += "Informe a descrição!" unless parameters["transaction"]["what"].present?
-      error_msg += "Informe o valor!" unless parameters["transaction"]["qty"].present?
-
       return error_msg
 
     end

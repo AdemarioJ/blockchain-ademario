@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_04_20_005716) do
+ActiveRecord::Schema.define(version: 2019_05_11_234648) do
 
   create_table "blockchains", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "index"
@@ -43,6 +43,18 @@ ActiveRecord::Schema.define(version: 2019_04_20_005716) do
     t.bigint "block_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.float "latitude", limit: 53
+    t.float "longitude", limit: 53
+    t.string "pais"
+    t.string "uf"
+    t.string "cidade"
+    t.string "bairro"
+    t.string "rua"
+    t.string "numero"
+    t.string "cep"
+    t.string "data"
+    t.string "horario"
+    t.string "endereco"
     t.index ["block_id"], name: "index_transactions_on_block_id"
   end
 

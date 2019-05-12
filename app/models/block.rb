@@ -57,19 +57,24 @@ class Block < ApplicationRecord
         end
     
         transactions.each do |transaction|
-          from = transaction[:from]
-          to = transaction[:to]
-          what = transaction[:what]
-          qty = transaction[:qty]
-    
-          transaction = Transaction.new
-          transaction.from = from
-          transaction.to = to
-          transaction.what = what
-          transaction.qty = qty
-          transaction.block_id = block.id
-    
-          if transaction.save!
+          block_transaction = Transaction.new
+          block_transaction.from =  transaction[:from]
+          block_transaction.to = transaction[:to]
+          block_transaction.what = transaction[:what]
+          block_transaction.qty = transaction[:qty]
+          block_transaction.block_id = block.id
+          block_transaction.pais = transaction[:pais]
+          block_transaction.uf = transaction[:uf]
+          block_transaction.cidade = transaction[:cidade]
+          block_transaction.bairro = transaction[:bairro]
+          block_transaction.rua = transaction[:rua]
+          block_transaction.numero = transaction[:numero]
+          block_transaction.cep = transaction[:cep]
+          block_transaction.endereco = transaction[:endereco]
+          block_transaction.data = I18n.l Date.today
+          block_transaction.horario = I18n.l Time.now, :format => :horario
+
+          if block_transaction.save!
             puts"Transação salva"
           end
         end

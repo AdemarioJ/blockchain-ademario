@@ -2,9 +2,8 @@ class BlockchainsController < ApplicationController
   skip_before_action :verify_authenticity_token, :only => [:update_informations, :get_transactions_block, :show]
 
   def index
-    @blockchain = Blockchain.all.order(created_at: :desc)
+    @blockchain = Block.joins(:blockchains).order('block_id DESC').group(:group)
     @blockchain = @blockchain.paginate(:page => params[:page], :per_page => 6);
-
   end
 
   #Validação do bloco
@@ -12,8 +11,6 @@ class BlockchainsController < ApplicationController
 
     informations = params["informations"] 
     error_msg = validation_informations(informations)
-
-    p "---------------------- #{error_msg} ----------------------"
 
     if error_msg.length == 0
         blocks = Blockchain.find_by("hash_id = ?", informations["hash_id"])

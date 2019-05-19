@@ -1,49 +1,51 @@
-<form>
-    <div>
-        <h1>Blockchain</h1>
-    </div>
+<form style="margin-bottom: 20px">
+    <div><h1>Blockchain</h1></div>
 
     <% @blockchain.each do | block | %>
 
-        <div class="container" style="ali">
+        <div class="container">
             <div class="card" style="margin-top:20px">
-                <div class="card-body" style="background:#ffd959; box-shadow: 0 2px 4px 0 rgba(0,0,0,0.16),0 2px 10px 0 rgba(0,0,0,0.12)!important;" >
+                <div class="card-body"
+                    style="background:#ffd959; box-shadow: 0 2px 4px 0 rgba(0,0,0,0.16),0 2px 10px 0 rgba(0,0,0,0.12)!important;">
                     <div class="form-group row">
 
                         <div class="form-group col-md-6">
                             <ul>
                                 <h5> Informações do bloco </h5>
-                                <li><b>Index:</b> <%= block.index%></li>
-                                <li><b>Timestamp: </b><%= block.created_at%></li>
-                                <li><b>Previous_hash: </b><%= block.previous_hash%></li>
-                                <li><b>Created_at: </b><%= block.created_at%></li>
-                                <li><b>Transaction_count: </b><%= block.transaction_count%></li>
-                                <li><b>Transactions_hash: </b><%= block.transactions_hash%></li>
-                                <li><b>Nonce: </b><%= block.nonce%></li>
-                                <li><b>Hash_id: </b><%= block.hash_id%></li>
+                                <li><b>Index:</b> <%= block.blockchains.first.index%></li>
+                                <li><b>Timestamp: </b><%= block.blockchains.first.created_at%></li>
+                                <li><b>Previous_hash: </b><%= block.blockchains.first.previous_hash%></li>
+                                <li><b>Created_at: </b><%= block.blockchains.first.created_at%></li>
+                                <li><b>Transaction_count: </b><%= block.blockchains.first.transaction_count%></li>
+                                <li><b>Transactions_hash: </b><%= block.blockchains.first.transactions_hash%></li>
+                                <li><b>Nonce: </b><%= block.blockchains.first.nonce%></li>
+                                <li><b>Hash_id: </b><%= block.blockchains.first.hash_id%></li>
                             </ul>
                         </div>
 
-                        <% transactions = transactions_web(block.hash_id) %>
+                        <% transactions = transactions_web(block.blockchains.first.hash_id) %>
 
                         <div class="form-group col-md-3">
-                            <ul><h5> Ultima Operação </h5></ul>
+                            <ul>
+                                <h5> Ultima Operação </h5>
+                            </ul>
                             <% transactions.take(1).each do | transaction | %>
-                                <ul>
-                                    <li><b>De: </b><%= transaction.from%></li>
-                                    <li><b>Para: </b><%= transaction.to%></li>
-                                    <li><b>Quem: </b><%= transaction.what%></li>
-                                    <li><b>Valor: </b><%= transaction.qty%></li>
-                                    <li><b>Grupo: </b><%= transaction.block.group%></li>
-                                                                    <!-- Button to Open the Modal -->
-                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal-attachment<%= block.hash_id.to_s %>">Ver mais</button>
+                            <ul>
+                                <li><b>De: </b><%= transaction.from%></li>
+                                <li><b>Para: </b><%= transaction.to%></li>
+                                <li><b>Quem: </b><%= transaction.what%></li>
+                                <li><b>Valor: </b><%= transaction.qty%></li>
+                                <li><b>Grupo: </b><%= transaction.block.group%></li>
+                                <!-- Button to Open the Modal -->
+                                <button type="button" class="btn btn-primary" data-toggle="modal"
+                                    data-target="#modal-attachment<%= block.hash_id.to_s %>">Ver mais</button>
 
-                                </ul>
+                            </ul>
                             <% end %>
                         </div>
 
                         <% qrcode = qrcode(block.hash_id) %>
-                        
+
                         <div class="form-group col-md-3">
                             <div class="card">
                                 <div class="card-body">
@@ -54,21 +56,22 @@
                     </div>
                 </div>
             </div>
-        </div> 
+        </div>
+        
         <!-- The Modal -->
         <div class="modal fade" id="modal-attachment<%= block.hash_id.to_s %>">
             <div class="modal-dialog">
-            <div class="modal-content">
-            
-                <!-- Modal Header -->
-                <div class="modal-header">
-                <h4 class="modal-title">Operações</h4>
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                </div>
-                
-                <!-- Modal body -->
-                <div class="modal-body">
-                    <% transactions.each do | transaction | %>
+                <div class="modal-content">
+
+                    <!-- Modal Header -->
+                    <div class="modal-header">
+                        <h4 class="modal-title">Operações</h4>
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+
+                    <!-- Modal body -->
+                    <div class="modal-body">
+                        <% transactions.each do | transaction | %>
                         <ul>
                             <li><b>De: </b><%= transaction.from%></li>
                             <li><b>Para: </b><%= transaction.to%></li>
@@ -76,19 +79,19 @@
                             <li><b>Valor: </b><%= transaction.qty%></li>
                             <li><b>Grupo: </b><%= transaction.block.group%></li>
                         </ul>
-                    <%end%>
+                        <%end%>
+                    </div>
+
+                    <!-- Modal footer -->
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                    </div>
+
                 </div>
-                
-                <!-- Modal footer -->
-                <div class="modal-footer">
-                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-                </div>
-                
-            </div>
             </div>
         </div>
 
     <% end %>
-    
+
     <%= will_paginate @blockchain, list_classes: %w(pagination justify-content-end) %>
 </form>

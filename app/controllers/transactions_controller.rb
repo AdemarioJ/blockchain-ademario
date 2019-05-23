@@ -51,7 +51,7 @@ class TransactionsController < ApplicationController
   
       # Never trust parameters from the scary internet, only allow the white list through.
       def transaction_params
-        params.require(:transaction).permit(:from, :to, :what, :qty, :block_id, :latitude, :longitude, :pais, :uf, :cidade, :bairro, :rua, :numero, :cep, :data, :horario, :endereco) 
+        params.require(:transaction).permit(:from, :to, :what, :qty, :block_id, :latitude, :longitude, :pais, :uf, :cidade, :bairro, :rua, :numero, :cep, :data, :horario, :endereco, :fabricacao, :validade, :tipo, :empresa) 
       end
 
       def verification_result(blockchain)

@@ -71,6 +71,11 @@ class Block < ApplicationRecord
           block_transaction.numero = transaction[:numero]
           block_transaction.cep = transaction[:cep]
           block_transaction.endereco = transaction[:endereco]
+          block_transaction.fabricacao = transaction[:fabricacao]
+          block_transaction.validade = transaction[:validade]
+          block_transaction.tipo = transaction[:tipo]
+          block_transaction.empresa = transaction[:empresa]
+
           block_transaction.data = I18n.l Date.today
           block_transaction.horario = I18n.l Time.now, :format => :horario
 

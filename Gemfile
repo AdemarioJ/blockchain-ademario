@@ -64,5 +64,8 @@ gem 'bootstrap', '~> 4.3.1'
 gem 'rqrcode', '~> 0.10.1'
 gem 'rqrcode_png'
 
+# gem divese
+gem 'devise'
 
-
+# Minimal authorization through OO design and pure Ruby classes
+gem "pundit"

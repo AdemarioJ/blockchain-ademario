@@ -1,5 +1,6 @@
 class BlockchainsController < ApplicationController
   skip_before_action :verify_authenticity_token, :only => [:update_informations, :get_transactions_block, :show]
+  before_action :authenticate_user!
 
   def index
     @blockchain = Block.joins(:blockchains).order('block_id DESC').group(:group)

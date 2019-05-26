@@ -60,11 +60,7 @@ class ApplicationController < ActionController::Base
         redirect_to '/blockchain', notice: 'Você não tem permissão para executar esta ação.'
       end
     end
-  
-    def get_binary_users
-      User.left_joins(:stores).distinct.where("(users.plan_id is not null or stores.id is not null) and users.active = true or stores.active = true")
-    end
-  
+
     def json_pagination(collection)
       {
         current_page: collection.current_page,

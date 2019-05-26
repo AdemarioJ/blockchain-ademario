@@ -6,10 +6,6 @@ Rails.application.routes.draw do
     root to: 'blockchains#index'
   end
 
-  resources :users do
-    resources :blockchain
-  end
-
   # Transacion
   resources :transactions, only: [:show, :create, :new]
 

@@ -20,19 +20,24 @@ class TransactionsController < ApplicationController
     def create
       @block = Block.new
       fist_transaction = Block.all
+      new_block_in_blockchain = nil
 
       if fist_transaction.count == 0
         @block = @block.first( [transaction_params] )
-        new_block_in_blockchain = Blockchain.validation_block( @block )
-        
-        verification_result(new_block_in_blockchain)
-
+        new_block_in_blockchain = Blockchain.validation_block( @block, current_user )
+        new_block_in_blockchain =  verification_result(new_block_in_blockchain)
       else
         @block = @block.next( Block.last, [transaction_params] )
-        new_block_in_blockchain = Blockchain.validation_block( @block )
+        new_block_in_blockchain = Blockchain.validation_block( @block, current_user )
+        new_block_in_blockchain =  verification_result(new_block_in_blockchain)
+      end
 
-        verification_result(new_block_in_blockchain)
-
+      respond_to do |format|
+        if new_block_in_blockchain
+          format.html { redirect_to "/blockchain" , notice: 'Queijo cadastrado com sucesso.' }
+        else
+          format.html { render :new, notice: 'Erro ao validar cadastro!'}
+        end
       end
   
     end
@@ -57,19 +62,13 @@ class TransactionsController < ApplicationController
       end
 
       def verification_result(blockchain)
-        #unless blockchain[0]
-          #response = { status:false, message: "Bloco não foi válidado!"}
-          #return json_response(response)  
-        #end
-
-        #response = { status:blockchain[0], blockchain: blockchain[1] }
-        #json_response(response)
         if blockchain[0]
-          redirect_to '/blockchain', notice: 'Cadastrado com sucesso!'
+          #redirect_to '/blockchain', notice: 'Cadastrado com sucesso!'
+          return true       
 
-        else          
-          redirect_to '/blockchain', alert: 'Erro ao validar cadastro!'
+        else   
+          return false       
+          #redirect_to '/blockchain', alert: 'Erro ao validar cadastro!'
         end
-      
       end
 end

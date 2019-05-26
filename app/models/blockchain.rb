@@ -1,5 +1,6 @@
 class Blockchain < ApplicationRecord
   
+  belongs_to :user
 
   #Calcula a Hash do bloco
   def calc_hash_with_nonce( block, transactions , transactions_count, previous_hash, nonce=0 )
@@ -35,7 +36,7 @@ class Blockchain < ApplicationRecord
   end
 
   # Válidação do bloco
-  def self.validation_block(block)
+  def self.validation_block(block, current_user)
     blockchain = Blockchain.new 
     previous_hash = Blockchain.last
     transactions = Transaction.where("block_id = ?", block.id)
@@ -43,7 +44,7 @@ class Blockchain < ApplicationRecord
     blockchain = blockchain.compute_proof_of_work(block, transactions, transactions_count, previous_hash) #Gera uma Hash de identificação do bloco
     if blockchain[0]
       #Inserindo na blockchain
-      new_block_in_blockchain = Blockchain.set_block_in_blockchain(block, transactions, transactions_count, blockchain)
+      new_block_in_blockchain = Blockchain.set_block_in_blockchain(block, transactions, transactions_count, blockchain, current_user)
       return new_block_in_blockchain
     else
       return new_block_in_blockchain
@@ -51,7 +52,7 @@ class Blockchain < ApplicationRecord
   end
 
   # Inserindo novo bloco na blockchain
-  def self.set_block_in_blockchain(block, transactions, transaction_count, blockchain)
+  def self.set_block_in_blockchain(block, transactions, transaction_count, blockchain, current_user)
     create_blockchain = Blockchain.new
     create_blockchain.index = Block.last.nil? ? '0' : (Block.last.index.to_i + 1).to_s
     create_blockchain.hash_id = blockchain[2]
@@ -61,6 +62,7 @@ class Blockchain < ApplicationRecord
     create_blockchain.nonce = blockchain[1]
     create_blockchain.timestamp = block.created_at
     create_blockchain.block_id = block.id
+    create_blockchain.user_id = current_user.id
 
     if create_blockchain.save!
       return [true, create_blockchain]

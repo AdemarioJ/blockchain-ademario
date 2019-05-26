@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_05_25_212855) do
+ActiveRecord::Schema.define(version: 2019_05_26_045823) do
 
   create_table "blockchains", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "index"
@@ -23,7 +23,9 @@ ActiveRecord::Schema.define(version: 2019_05_25_212855) do
     t.datetime "updated_at", null: false
     t.datetime "timestamp"
     t.bigint "block_id"
+    t.bigint "user_id"
     t.index ["block_id"], name: "index_blockchains_on_block_id"
+    t.index ["user_id"], name: "index_blockchains_on_user_id"
   end
 
   create_table "blocks", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
@@ -33,14 +35,6 @@ ActiveRecord::Schema.define(version: 2019_05_25_212855) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "group"
-  end
-
-  create_table "companies", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
-    t.bigint "user_id"
-    t.string "name"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["user_id"], name: "index_companies_on_user_id"
   end
 
   create_table "transactions", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
@@ -83,10 +77,14 @@ ActiveRecord::Schema.define(version: 2019_05_25_212855) do
     t.string "last_sign_in_ip"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "blockchain_id"
+    t.index ["blockchain_id"], name: "index_users_on_blockchain_id"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
   add_foreign_key "blockchains", "blocks"
+  add_foreign_key "blockchains", "users"
   add_foreign_key "transactions", "blocks"
+  add_foreign_key "users", "blockchains"
 end

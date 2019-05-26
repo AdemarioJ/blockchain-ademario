@@ -40,7 +40,7 @@ pt-BR:
       invalid: Usuário ou senha inválidos.
       last_attempt: Você tem mais uma única tentativa antes de sua conta ser bloqueada.
       locked: A sua conta está bloqueada.
-      not_found_in_database: Informe username e senha corretamente. #Username ou senha inválidos.
+      not_found_in_database: Informe e-mail e senha corretamente. #Username ou senha inválidos.
       timeout: A sua sessão expirou, por favor, faça login novamente para continuar.
       unauthenticated: Faça login ou registre-se. #Para continuar, faça login ou registre-se.
       unconfirmed: Antes de continuar, confirme a sua conta.

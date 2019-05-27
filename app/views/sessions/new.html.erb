@@ -1,29 +1,26 @@
 <!DOCTYPE html>
-<html lang=”pt-br”>
+<html lang="pt-br">
 
 <head>
   <title>QRQueijo</title>
   <%= csrf_meta_tags %>
-  <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,700" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
-  <%= stylesheet_link_tag 'application', media: 'all' %>
 
+  <%= stylesheet_link_tag 'login' %>
   <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
 
   <meta name="viewport" content="width=device-width, user-scalable=no">
 </head>
 
 <body>
-  <div class="container">
 
     <div class="login-logo off-canvas">
       <%= image_tag("logo.png", :alt => "rss feed") %>
     </div>
-    <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
+    
+    <%= form_for(resource, as: resource_name, url: session_path(resource_name), :class =>"form-signin") do |f| %>
 
     <div class="form-container off-canvas">
 
-      <form role="form" class="form-signin">
         <h2>Login</h2>
 
         <div class="form-group">
@@ -62,37 +59,25 @@
           </div>
         </div>
 
-      </form>
-    </div> <!-- /container -->
     <% end %>
 
   </div>
 </body>
 
 </html>
-
 <script>
-  var $loginForm = $(".form-signin"),
-    $login_text_fields = $loginForm.find("input[type='text']");
+    $(document).ready(function ($) {
 
-  $(".login-logo,.form-container").removeClass("off-canvas");
+      $(".login-logo,.form-container").removeClass("off-canvas");
 
-  $loginForm.validate({
-    errorElement: "span",
-    success: function (label) {
-      _form_success_aria(label);
-    },
-    invalidHandler: function (event, validator) {
-      _form_error_aria(event);
-    }
-  });
+      function _form_success_aria(label) {
+        var target = label.parent().find("input");
+        target.attr("aria-invalid", "false");
+      }
 
-  function _form_success_aria(label) {
-    var target = label.parent().find("input");
-    target.attr("aria-invalid", "false");
-  }
+      function _form_error_aria(validator) {
+        console.log(validator.target.elements[0]);
+      }
+    });
 
-  function _form_error_aria(validator) {
-    console.log(validator.target.elements[0]);
-  }
 </script>

@@ -15,17 +15,8 @@ Rails.application.routes.draw do
   post 'update_informations', to: 'blockchains#update_informations'
   post 'get_transactions', to: 'blockchains#get_transactions_block'
 
-  # Session
-  get    'sign_in'   => 'sessions#new'
-  post   'sign_in'   => 'sessions#create'
-  delete 'sign_out'  => 'sessions#destroy'
-  get 'sessions/new'
-
-  # User
-  get 'user/create'
-  get 'user/index'
-  get 'user/show'
-  get 'user/edit'
-  get 'user/reset_pasword'
+  # get 'users', to: 'users#index'
+  resources :users, only: [:index, :show]
+  put 'users/reset_password/:id' => 'users#reset_password'
 
 end

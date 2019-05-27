@@ -63,12 +63,10 @@ class TransactionsController < ApplicationController
 
       def verification_result(blockchain)
         if blockchain[0]
-          #redirect_to '/blockchain', notice: 'Cadastrado com sucesso!'
           return true       
 
         else   
           return false       
-          #redirect_to '/blockchain', alert: 'Erro ao validar cadastro!'
         end
       end
 end

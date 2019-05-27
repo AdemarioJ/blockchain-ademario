@@ -1,20 +1,28 @@
 <!DOCTYPE html>
-<html lang="en">
 
 <head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
   <title>QR Queijo</title>
   <meta charset="utf-8">
-  <%= csrf_meta_tags %>
-  <%= javascript_include_tag 'application' %>
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+  <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+
+  <!-- END Page Level CSS-->
+  <!-- BEGIN Custom CSS-->
+
+  <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
+  <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+  <%= csrf_meta_tags %>
+
 </head>
 
 <body>
+
   <% if user_signed_in? %>
   <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
     <a class="navbar-brand " href="#">QR Queijo</a>
@@ -36,43 +44,48 @@
         </li>
       </ul>
     </div>
+  </nav>
+  <% end %>
+
+  <div class="content">
+    <% unless flash.empty? %>
+    <script type="text/javascript">
+      <% flash.each do |key, value | %>
+        <% type = key.to_s.gsub('alert', 'error').gsub('notice', 'success') %>
+        toastr['<%= type %>']('<%= value %>') 
+      <% end %>
+    </script>
     <% end %>
 
-  </nav>
-
-
-  <div>
-    <div class="container" style="margin-top: 15px;">
-      <% flash.each do |key, value| %>
-      <div class="<%= flash_class(key) %>">
-        <%= value %>
-      </div>
-      <% end %>
-    </div>
-
     <%= yield %>
+  </div>
+
+  <!-- Small modal -->
+  <div class="modal" id="logoutModal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-sm">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4>Deslogar <i class="fa fa-lock"></i></h4>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+              aria-hidden="true">×</span></button>
+        </div>
+        <div class="modal-body">
+          <p><i class="fa fa-question-circle"></i> Tem certeza de que deseja sair? <br /></p>
+          <div class="actionsBtns">
+            <%= link_to destroy_user_session_path(:authenticity_token => form_authenticity_token()), class: "btn btn-default btn-primary" , method: :delete do %>Sair<% end %>
+            <button class="btn btn-default" data-dismiss="modal">Cancel</button>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 
 </body>
 
 </html>
 
-<!-- Small modal -->
-<div class="modal" id="logoutModal" tabindex="-1" role="dialog" aria-hidden="true">
-  <div class="modal-dialog modal-sm">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h4>Deslogar <i class="fa fa-lock"></i></h4>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-            aria-hidden="true">×</span></button>
-      </div>
-      <div class="modal-body">
-        <p><i class="fa fa-question-circle"></i> Tem certeza de que deseja sair? <br /></p>
-        <div class="actionsBtns">
-          <%= link_to destroy_user_session_path(:authenticity_token => form_authenticity_token()), class: "btn btn-default btn-primary" , method: :delete do %>Sair<% end %>
-          <button class="btn btn-default" data-dismiss="modal">Cancel</button>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+  

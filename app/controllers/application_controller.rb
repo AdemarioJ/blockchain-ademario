@@ -6,41 +6,16 @@ class ApplicationController < ActionController::Base
   
     helper_method :binary_network_url, :is_defined_param?
   
-  
-    # include ExceptionLogger::ExceptionLoggable # loades the module   DESCOMENTAR AO INSERIR GEM
-    # rescue_from Exception, :with => :log_exception_handler # tells rails to forward the 'Exception' (you can change the type) to the handler of the module    DESCOMENTAR AO INSERIR GEM
-  
-    def binary_network_url user
-      "/network/binary/#{user.id}"
-    end
-  
     def after_sign_in_path_for(_resource)
       '/blockchain'
     end
 
     def configure_permitted_parameters
-        devise_parameter_sanitizer.permit(:sign_up) do |user_params|
-          user_params.permit({ roles: [] }, :email, :password, :password_confirmation)
-        end
+      devise_parameter_sanitizer.permit(:sign_up) do |user_params|
+        user_params.permit({ roles: [] }, :email, :password, :password_confirmation)
       end
-  
-    def not_active_user
-      '/users/sign_in'
     end
-  
-    def recreate_binary
-      Thread.new{
-        users = User.left_joins(:stores).distinct.where("users.id > 135 and (users.plan_id is not null or stores.id is not null) and parent_binary_id is null and users.active = true or stores.active = true")
-        # users = User.where("id in (282)")
-  
-        users.each do |user|
-          user.set_binary_recreate(user.key_binary_type_used)
-        end
-      }
-  
-      redirect_to '/network/binary/1', notice: 'Rede binaria recriada com sucesso.'
-    end
-  
+
     def is_defined_param?(param)
       !params[param].nil? && !params[param].empty?
     end
@@ -59,16 +34,6 @@ class ApplicationController < ActionController::Base
       unless current_user.root?
         redirect_to '/blockchain', notice: 'Você não tem permissão para executar esta ação.'
       end
-    end
-
-    def json_pagination(collection)
-      {
-        current_page: collection.current_page,
-        next_page: collection.next_page,
-        prev_page: collection.previous_page,
-        total_pages: collection.total_pages,
-        total_count: collection.total_entries
-      }
     end
   
     private

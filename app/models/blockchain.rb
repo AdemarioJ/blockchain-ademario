@@ -1,6 +1,7 @@
 class Blockchain < ApplicationRecord
   
   belongs_to :user
+  belongs_to :block
 
   # Válidação do bloco
   def self.validation_block(block, current_user)

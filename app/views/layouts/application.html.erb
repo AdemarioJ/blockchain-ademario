@@ -9,12 +9,11 @@
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+  <link rel='shortcut icon' type='image/x-icon' href='/favicon.ico' />
 
   <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 
-  <!-- END Page Level CSS-->
   <!-- BEGIN Custom CSS-->
-
   <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
   <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
   <%= csrf_meta_tags %>
@@ -25,7 +24,7 @@
 
   <% if user_signed_in? %>
   <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
-    <a class="navbar-brand " href="#">QR Queijo</a>
+    <a class="navbar-brand " href="/blockchain">QR Queijo</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
       <span class="navbar-toggler-icon"></span>
     </button>
@@ -47,7 +46,7 @@
   </nav>
   <% end %>
 
-  <div class="content">
+  <div class="content content-main">
     <% if user_signed_in? %>
       <% unless flash.empty? %>
         <script type="text/javascript">

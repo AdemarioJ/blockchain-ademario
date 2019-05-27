@@ -4,7 +4,7 @@ class Block < ApplicationRecord
   require "digest"    # para função de resumo de soma de verificação de hash SHA256
 
   has_many :transactions
-  has_many  :blockchains
+  has_many :blockchains
 
   after_save :set_transactions
 
@@ -44,9 +44,9 @@ class Block < ApplicationRecord
     block.hash_id = block.calc_hash(block)
 
     if group.nil?
-      block.group = Block.last.nil? ? '0' : (Block.last.group.to_i + 1).to_s
+      block.group_id = Block.last.nil? ? '0' : (Block.last.group_id.to_i + 1).to_s
     else
-      block.group = group
+      block.group_id = group
     end
     block.new_transactions = transactions
 

@@ -24,7 +24,7 @@ module BlockchainsHelper
       
       groups = Blockchain.where("hash_id = ?", hash )
       block = Block.all.where("blocks.id = ?", groups[0].block_id)
-      blocks = Block.all.where("blocks.group = ?", block[0].group)
+      blocks = Block.all.where("blocks.group_id = ?", block[0].group_id)
 
       transactions = []
 

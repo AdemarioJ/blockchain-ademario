@@ -3,7 +3,7 @@ class BlockchainsController < ApplicationController
   skip_before_action :verify_authenticity_token, :only => [:update_informations, :get_transactions_block, :show]
 
   def index
-    @blockchain = Block.joins(:blockchains).where("blockchains.user_id = ?", current_user.id).order('block_id DESC').group(:group)
+    @blockchain = Block.joins(:blockchains).where("blockchains.user_id = ?", current_user.id).order('id DESC').group(:group_id)
     @blockchain = @blockchain.paginate(:page => params[:page], :per_page => 6);
   end
 
@@ -119,7 +119,7 @@ class BlockchainsController < ApplicationController
       end
 
       block = Block.all.where("blocks.id = ?", groups[0].block_id)
-      blocks = Block.all.where("blocks.group = ?", block[0].group)
+      blocks = Block.all.where("blocks.group_id = ?", block[0].group_id)
 
       transactions = []
 

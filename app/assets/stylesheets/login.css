@@ -7,6 +7,10 @@
     transition: all .5s ease-in-out;
 }
 
+.content {
+    background: white;
+}
+
 .off-canvas {
     transform:
         translateZ(0) translate(0, -400px) rotateY(-360deg);
@@ -49,6 +53,7 @@ h2 {
 
 html {
     box-sizing: border-box;
+    background: white;
 }
 
 *,

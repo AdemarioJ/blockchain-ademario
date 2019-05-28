@@ -1,7 +1,8 @@
 class BlockchainsController < ApplicationController
   before_action :authenticate_user!
   skip_before_action :verify_authenticity_token, :only => [:update_informations, :get_transactions_block, :show, :detail_block]
-
+  skip_before_action :authenticate_user!, :only => [:update_informations, :get_transactions_block]
+  
   def index
     @blockchain = Block.joins(:blockchains).where("blockchains.user_id = ?", current_user.id).order('id DESC').group(:group_id)
     @blockchain = @blockchain.paginate(:page => params[:page], :per_page => 6);
@@ -61,6 +62,7 @@ class BlockchainsController < ApplicationController
           response = { message: "Informações inválidas!", code: :not_found}
           return json_response(response) 
         else
+
           json_response(transactions, :ok)
 
         end

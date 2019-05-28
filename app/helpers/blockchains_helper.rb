@@ -55,7 +55,7 @@ module BlockchainsHelper
     end
 
     def type_cheese(block_id)
-      transaction = Transaction.find_by("block_id = ?", block_id)
+      cheese = Transaction.find_by("block_id = ?", block_id)
     end
 
 end

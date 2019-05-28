@@ -1,9 +1,13 @@
 <form style="margin-bottom: 20px">
-    <div style="text-align: center;">
-        <h1>Blockchain</h1>
-    </div>
+
 
     <% @blockchain.each do | block | %>
+    <% cheese = type_cheese(block.id) %>
+
+    <div style="text-align: center;">
+        <h1><%= cheese.tipo %></h1>
+    </div>
+
     <div class="container">
         <div class="card" style="margin-top:20px">
             <div class="card-body"

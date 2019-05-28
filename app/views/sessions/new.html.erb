@@ -6,6 +6,8 @@
   <%= csrf_meta_tags %>
 
   <%= stylesheet_link_tag 'login' %>
+  <%= stylesheet_link_tag 'sessions' %>
+
   <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
 
   <meta name="viewport" content="width=device-width, user-scalable=no">
@@ -24,20 +26,20 @@
         <h2>Login</h2>
 
         <div class="form-group">
-          <label for="EmailAddress"><span>*</span> E-mail</label>
+          <label for="EmailAddress"><span class="danger">*</span> E-mail</label>
           <%= f.email_field :email, class: "form-control", autofocus: true, autocomplete: "email", required: true, id: "EmailAddress"  %>
         </div>
 
         <div class="form-group">
-          <label for="EmailAddress"><span>*</span> Senha</label>
+          <label for="EmailAddress"><span class="danger">*</span> Senha</label>
           <%= f.password_field :password, class: "form-control" ,autocomplete: "current-password", required: true ,id: "password" %>
         </div>
 
         <div class="row">
           <div class="col-6">
             <% if devise_mapping.rememberable? %>
-            <%= f.check_box :remember_me %>
-            <%= f.label :remember_me %>
+              <%= f.check_box :remember_me %>
+              <%= f.label :remember_me %>
             <% end %>
           </div>
           <div class="col-6">

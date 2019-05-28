@@ -1,6 +1,6 @@
 class BlockchainsController < ApplicationController
   before_action :authenticate_user!
-  skip_before_action :verify_authenticity_token, :only => [:update_informations, :get_transactions_block, :show]
+  skip_before_action :verify_authenticity_token, :only => [:update_informations, :get_transactions_block, :show, :detail_block]
 
   def index
     @blockchain = Block.joins(:blockchains).where("blockchains.user_id = ?", current_user.id).order('id DESC').group(:group_id)
@@ -43,9 +43,13 @@ class BlockchainsController < ApplicationController
   
   def show
     @blockchain = Blockchain.all
-      
   end
   
+  def detail
+    @blockchain = Block.joins(:blockchains).where("block_id = ?", params[:id]).order('id DESC').group(:group_id)
+    @blockchain = @blockchain.paginate(:page => params[:page], :per_page => 6);
+  end
+
   def get_transactions_block
     error_msg = validation_hash(params["hash_id"] )
 

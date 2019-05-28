@@ -20,6 +20,24 @@ module BlockchainsHelper
         @qr = RQRCode::QRCode.new(code.to_s).to_img.resize(200, 200).to_data_url
     end
 
+    def mini_qrcode(code)
+      # With default options specified explicitly
+      #Salva a imagem no projeto
+      qrcode = RQRCode::QRCode.new(code.to_s)
+      qrcode.as_png(
+        resize_gte_to: false,
+        resize_exactly_to: false,
+        fill: 'white',
+        color: 'black',
+        size: 150,
+        border_modules: 4,
+        module_px_size: 6,
+        file: "QRcode.png" )
+
+      #Cria a o QRcode
+      @qr = RQRCode::QRCode.new(code.to_s).to_img.resize(80, 80).to_data_url
+  end
+
     def transactions_web(hash)
       
       groups = Blockchain.where("hash_id = ?", hash )
@@ -34,6 +52,10 @@ module BlockchainsHelper
       end
 
       return transactions
+    end
+
+    def type_cheese(block_id)
+      transaction = Transaction.find_by("block_id = ?", block_id)
     end
 
 end

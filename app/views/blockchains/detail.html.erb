@@ -1,0 +1,111 @@
+<form style="margin-bottom: 20px">
+    <div style="text-align: center;">
+        <h1>Blockchain</h1>
+    </div>
+
+    <% @blockchain.each do | block | %>
+    <div class="container">
+        <div class="card" style="margin-top:20px">
+            <div class="card-body"
+                style="background:#ffd959; box-shadow: 0 2px 4px 0 rgba(0,0,0,0.16),0 2px 10px 0 rgba(0,0,0,0.12)!important;">
+                <div class="row">
+                    <div class="col-md-6 col-ms-3">
+                        <ul>
+                            <h5> Informações do bloco </h5>
+                            <li><b>Index:</b> <%= block.blockchains.first.index%></li>
+                            <li><b>Timestamp: </b><%= block.blockchains.first.created_at%></li>
+                            <li><b>Previous_hash: </b><%= block.blockchains.first.previous_hash%></li>
+                            <li><b>Transaction_count: </b><%= block.blockchains.first.transaction_count%></li>
+                            <li><b>Transactions_hash: </b><%= block.blockchains.first.transactions_hash%></li>
+                            <li><b>Nonce: </b><%= block.blockchains.first.nonce%></li>
+                            <li><b>Hash_id: </b><%= block.blockchains.first.hash_id%></li>
+                        </ul>
+                    </div>
+
+                    <% transactions = transactions_web(block.blockchains.first.hash_id) %>
+
+                    <div class="col-md-3 col-ms-3">
+                        <ul>
+                            <h5> Ultima Operação </h5>
+                        </ul>
+
+                        <% transactions.take(1).each do | transaction | %>
+                        <ul>
+                            <li><b>País: </b><%= transaction.pais%></li>
+                            <li><b>UF: </b><%= transaction.uf%></li>
+                            <li><b>Cidade: </b><%= transaction.cidade%></li>
+                            <li><b>Bairro: </b><%= transaction.bairro%></li>
+                            <li><b>Rua: </b><%= transaction.rua%></li>
+                            <li><b>Data: </b><%= transaction.data%></li>
+                            <li><b>Horário: </b><%= transaction.horario%></li>
+                            <li><b>Fábrica: </b><%= transaction.empresa%></li>
+                            <li><b>Fabricação: </b><%= transaction.fabricacao%></li>
+                            <li><b>Validade: </b><%= transaction.validade%></li>
+                            <li><b>Tipo de queijo: </b><%= transaction.tipo%></li>
+
+                            <!-- Button to Open the Modal -->
+                            <div class="row" style="margin-top: 8px">
+                                <button type="button" class="btn btn-primary ml-5 ml-lg-0" data-toggle="modal"
+                                    data-target="#modal-attachment<%= block.hash_id.to_s %>">Ver mais</button>
+                            </div>
+                        </ul>
+                        <% end %>
+                    </div>
+
+                    <% qrcode = qrcode(block.blockchains.first.hash_id) %>
+
+                    <div class="col-md-3 col-sm-2">
+                        <div class="card" style="text-align: center;">
+                            <div class="card-body d-flex justify-content-center">
+                                <%= image_tag qrcode %>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- The Modal -->
+        <div class="modal fade" id="modal-attachment<%= block.hash_id.to_s %>">
+            <div class="modal-dialog">
+                <div class="modal-content">
+
+                    <!-- Modal Header -->
+                    <div class="modal-header">
+                        <h4 class="modal-title">Operações</h4>
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+
+                    <!-- Modal body -->
+                    <div class="modal-body">
+                        <% transactions.each do | transaction | %>
+                        <ul>
+                            <li><b>País: </b><%= transaction.pais%></li>
+                            <li><b>UF: </b><%= transaction.uf%></li>
+                            <li><b>Cidade: </b><%= transaction.cidade%></li>
+                            <li><b>Bairro: </b><%= transaction.bairro%></li>
+                            <li><b>Rua: </b><%= transaction.rua%></li>
+                            <li><b>Data: </b><%= transaction.data%></li>
+                            <li><b>Horário: </b><%= transaction.horario%></li>
+                            <li><b>Fábrica: </b><%= transaction.empresa%></li>
+                            <li><b>Fabricação: </b><%= transaction.fabricacao%></li>
+                            <li><b>Validade: </b><%= transaction.validade%></li>
+                            <li><b>Tipo de queijo: </b><%= transaction.tipo%></li>
+                        </ul>
+                        <%end%>
+                    </div>
+
+                    <!-- Modal footer -->
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <% end %>
+
+    <%= will_paginate @blockchain, list_classes: %w(pagination justify-content-end) %>
+</form>

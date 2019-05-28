@@ -14,6 +14,7 @@ Rails.application.routes.draw do
   get 'blockchain', to: 'blockchains#index'
   post 'update_informations', to: 'blockchains#update_informations'
   post 'get_transactions', to: 'blockchains#get_transactions_block'
+  get 'detail/:id', to: 'blockchains#detail'
 
   # get 'users', to: 'users#index'
   resources :users, only: [:index, :show]

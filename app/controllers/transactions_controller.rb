@@ -1,4 +1,6 @@
 class TransactionsController < ApplicationController
+    before_action :authenticate_user!
+
     require 'rqrcode'
     require 'io/console'
   
@@ -18,11 +20,23 @@ class TransactionsController < ApplicationController
     def create
       @block = Block.new
       fist_transaction = Block.all
-  
+      new_block_in_blockchain = nil
+
       if fist_transaction.count == 0
-        @block.first([transaction_params])
+        @block = @block.first( [transaction_params] )
+        new_block_in_blockchain = Blockchain.validation_save_block(@block, current_user)
+
       else
-        @block.next( Block.last,[transaction_params])
+        @block = @block.next( Block.last, [transaction_params] )
+        new_block_in_blockchain = Blockchain.validation_save_block(@block, current_user)
+      end
+
+      respond_to do |format|
+        if new_block_in_blockchain
+          format.html { redirect_to "/blockchain", notice: 'Queijo cadastrado com sucesso.' }
+        else
+          format.html { redirect_to "/blockchain", alert: 'Erro ao validar cadastro!'}
+        end
       end
   
     end
@@ -32,6 +46,10 @@ class TransactionsController < ApplicationController
     end
     
     private
+
+      def json_response(message, code = :ok)
+        render json: message, status: code
+      end
   
       def set_transaction
         @blockchain = Transaction.find(params[:id])
@@ -39,6 +57,6 @@ class TransactionsController < ApplicationController
   
       # Never trust parameters from the scary internet, only allow the white list through.
       def transaction_params
-        params.require(:transaction).permit(:from, :to, :what, :qty, :block_id)
+        params.require(:transaction).permit(:from, :to, :what, :qty, :block_id, :latitude, :longitude, :pais, :uf, :cidade, :bairro, :rua, :numero, :cep, :data, :horario, :endereco, :fabricacao, :validade, :tipo, :empresa) 
       end
 end

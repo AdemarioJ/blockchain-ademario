@@ -1,0 +1,40 @@
+<form style="margin-bottom: 20px">
+    <div style="text-align: center;">
+        <h3>Lista de Queijos</h3>
+    </div>
+
+        <div class="card-content collapse show">
+          <div class="card-body">
+            <div class="table-responsive">
+              <table class="table table-striped table-bordered">
+                <thead>
+                <tr>
+                  <th style="text-align: center;">Queijo</th>
+                  <th style="text-align: center;">Fabricação</th>
+                  <th style="text-align: center;">Validade</th>
+                  <th style="text-align: center;">QRcode</th>
+                  <th style="text-align: center;"></th>
+
+                </tr>
+                </thead>
+                <tbody>
+                <% @blockchain.each do | block | %>
+                      <% qrcode = mini_qrcode(block.blockchains.first.hash_id) %>
+                      <% cheese = type_cheese(block.id) %>
+                    <tr>
+                      <td style="text-align: center; vertical-align: middle;"><%= cheese.tipo  %></td>
+                      <td style="text-align: center; vertical-align: middle;"><%= cheese.fabricacao %></td>
+                      <td style="text-align: center; vertical-align: middle;"><%= cheese.validade %></td>
+                      <td style="text-align: center; vertical-align: middle;"><div style="text-align: center;"><%= image_tag qrcode %></div></td>
+                      <td style="text-align: center; vertical-align: middle;">
+                        <%= link_to "Detalhar", "detail/#{block.id}", class:"btn btn-success btn-min-width"%>
+                      </td>
+                    </tr>
+                <% end %>
+                </tbody>
+              </table>
+            </div>
+            <%= will_paginate @blockchain, previous_label: t("<"), next_label: t(">"), list_classes: %w(pagination justify-content-end) %>
+          </div>
+        </div>
+</form>

@@ -22,7 +22,7 @@ gem 'uglifier', '>= 1.3.0'
 # Use CoffeeScript for .coffee assets and views
 gem 'coffee-rails', '~> 4.2'
 # Turbolinks makes navigating your web application faster. Read more: https://github.com/turbolinks/turbolinks
-gem 'turbolinks', '~> 5'
+gem 'turbolinks', '~> 5.2.0'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem 'jbuilder', '~> 2.5'
 # Use Redis adapter to run Action Cable in production
@@ -57,12 +57,18 @@ gem 'safe_attributes'
 gem 'jquery-rails'
 gem 'materialize-sass', '~> 0.100.2'
 gem 'will_paginate'
-gem 'will_paginate-materialize'
-gem 'bootstrap', '~> 4.3.1'
+gem 'will_paginate-bootstrap4'
+gem 'bootstrap', '~> 4.0.0.alpha3'
 
 # gems para gerar QRcode
 gem 'rqrcode', '~> 0.10.1'
 gem 'rqrcode_png'
 
+# gem divese
+gem 'devise'
 
+# Minimal authorization through OO design and pure Ruby classes
+gem "pundit"
 
+# Gem para Toastr
+gem 'toastr-rails'

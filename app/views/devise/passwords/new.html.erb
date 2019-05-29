@@ -1,0 +1,76 @@
+<!DOCTYPE html >
+<html lang="pt-br">
+
+<head>
+  <title>QRQueijo</title>
+  <%= csrf_meta_tags %>
+
+  <%= stylesheet_link_tag 'login' %>
+  <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+
+</head>
+
+<body>
+
+  <div class="login-logo off-canvas">
+    <%= image_tag("logo.png", :alt => "rss feed") %>
+  </div>
+
+  <%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post }) do |f| %>
+  <%= render "devise/shared/error_messages", resource: resource %>
+
+  <div class="form-container off-canvas">
+
+    <h2>Esqueceu sua senha?</h2>
+
+    <div class="form-group">
+      <label for="EmailAddress"><span>*</span> E-mail</label>
+      <%= f.email_field :email, class: "form-control", autofocus: true, autocomplete: "email", required: true, id: "EmailAddress"  %>
+    </div>
+
+
+    <div class="row">
+      <div class="col-12">
+          <label for="EmailAddress"> As informações serão enviadas ao e-mail</label>
+        </div>
+      </div>
+
+          <div class="row">
+      <div class="col-6">
+              <%= f.submit "Envie-me", :class => "btn btn-primary" %>
+        </div>
+
+      <div class="col-4">
+        <%= link_to "Cadastre-se", new_registration_path(resource_name) %><br />
+                <%= link_to "Entrar", session_path(resource_name) %><br />
+
+      </div>
+
+    </div>
+
+    <% end %>
+
+  </div>
+</body>
+
+</html>
+<script>
+    $(document).ready(function ($) {
+
+
+      $(".login-logo,.form-container").removeClass("off-canvas");
+
+
+      function _form_success_aria(label) {
+        var target = label.parent().find("input");
+        target.attr("aria-invalid", "false");
+      }
+
+      function _form_error_aria(validator) {
+        console.log(validator.target.elements[0]);
+      }
+
+    });
+
+
+</script>

@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang=”pt-br”>
+
+<head>
+  <title>QRQueijo</title>
+  <%= csrf_meta_tags %>
+  <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,700" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+  <%= stylesheet_link_tag 'application', media: 'all' %>
+  <%= stylesheet_link_tag 'login' %>
+  
+  <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+
+  <meta name="viewport" content="width=device-width, user-scalable=no">
+</head>
+
+<body>
+  <div class="container">
+
+    <div class="login-logo off-canvas">
+      <%= image_tag("logo.png", :alt => "rss feed") %>
+    </div>
+
+    <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
+    <%= render "devise/shared/error_messages", resource: resource %>
+    <div class="form-container off-canvas">
+
+      <form role="form" class="form-signin">
+        <h2>Cadastrar</h2>
+
+        <div class="form-group">
+          <label for="EmailAddress"><span>*</span> E-mail</label>
+          <%= f.email_field :email, class: "form-control", autofocus: true, autocomplete: "email", required: true, id: "EmailAddress"  %>
+        </div>
+
+        <div class="form-group">
+          <label><span>*</span> Senha</label>
+          <%= f.label :password %>
+          <% if @minimum_password_length %>
+          <em>(<%= @minimum_password_length %> mínimo de caracteres)</em>
+          <% end %><br />
+          <%= f.password_field :password, class: "form-control" , autocomplete: "new-password", required: true ,id: "password" %>
+        </div>
+
+        <div class="form-group">
+          <%= f.label :password_confirmation %><br />
+          <%= f.password_field :password_confirmation, class: "form-control",  autocomplete: "new-password" %>
+        </div>
+
+        <div class="row">
+          <div class="col-6">
+            <div class="actions">
+              <%= f.submit "Cadastrar", class: "btn btn-primary"  %>
+            </div>
+          </div>
+        </div>
+
+      </form>
+    </div> <!-- /container -->
+    <% end %>
+
+  </div>
+</body>
+
+</html>
+
+<script>
+  var $loginForm = $(".form-signin"),
+    $login_text_fields = $loginForm.find("input[type='text']");
+
+  $(".login-logo,.form-container").removeClass("off-canvas");
+
+  $loginForm.validate({
+    errorElement: "span",
+    success: function (label) {
+      _form_success_aria(label);
+    },
+    invalidHandler: function (event, validator) {
+      _form_error_aria(event);
+    }
+  });
+
+  function _form_success_aria(label) {
+    var target = label.parent().find("input");
+    target.attr("aria-invalid", "false");
+  }
+
+  function _form_error_aria(validator) {
+    console.log(validator.target.elements[0]);
+  }
+</script>

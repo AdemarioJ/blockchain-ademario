@@ -8,10 +8,12 @@
   <meta charset="utf-8">
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+
   <link rel='shortcut icon' type='image/x-icon' href='/favicon.ico' />
 
-  <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 
   <!-- BEGIN Custom CSS-->
   <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
@@ -21,7 +23,6 @@
 </head>
 
 <body>
-
   <% if user_signed_in? %>
   <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
     <a class="navbar-brand " href="/blockchain">QR Queijo</a>
@@ -48,16 +49,15 @@
 
   <div class="content content-main">
     <% if user_signed_in? %>
-      <% unless flash.empty? %>
-        <script type="text/javascript">
-          <% flash.each do |key, value | %>
-            <% type = key.to_s.gsub('alert', 'error').gsub('notice', 'success') %>
-            toastr['<%= type %>']('<%= value %>') 
-          <% end %>
-        </script>
-      <% end %>
+    <% unless flash.empty? %>
+    <script type="text/javascript">
+      <% flash.each do |key, value | %>
+        <% type = key.to_s.gsub('alert', 'error').gsub('notice', 'success') %>
+        toastr['<%= type %>']('<%= value %>') <% end %>
+    </script>
     <% end %>
-    
+    <% end %>
+
     <%= yield %>
   </div>
 
@@ -86,7 +86,4 @@
 </html>
 
 
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-  
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>

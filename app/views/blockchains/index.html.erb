@@ -13,7 +13,7 @@
                   <th style="text-align: center;">Fabricação</th>
                   <th style="text-align: center;">Validade</th>
                   <th style="text-align: center;">QRcode</th>
-                  <th style="text-align: center;">Detalhar</th>
+                  <th style="text-align: center;"></th>
 
                 </tr>
                 </thead>
@@ -27,16 +27,7 @@
                       <td style="text-align: center; vertical-align: middle;"><%= cheese.validade %></td>
                       <td style="text-align: center; vertical-align: middle;"><div style="text-align: center;"><%= image_tag qrcode %></div></td>
                       <td style="text-align: center; vertical-align: middle;">
-                        <div class="btn-group ">
-                          <a class="btn btn-success btn-min-width dropdown-toggle" href="#"
-                             data-activates='ddoptions-<%= block.id %>' data-toggle="dropdown" aria-haspopup="true"
-                             aria-expanded="true">
-                            Opções
-                          </a>
-                          <div id="ddoptions-<%= block.id %>" aria-labelledby="dropdownMenuLink" class="dropdown-menu">
-                            <%= link_to "Detalhar", "detail/#{block.id}", class:"dropdown-item"%>
-                          </div>
-                        </div>
+                        <%= link_to "Detalhar", "detail/#{block.id}", class:"btn btn-success btn-min-width"%>
                       </td>
                     </tr>
                 <% end %>

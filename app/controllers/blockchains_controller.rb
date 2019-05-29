@@ -5,7 +5,7 @@ class BlockchainsController < ApplicationController
   
   def index
     @blockchain = Block.joins(:blockchains).where("blockchains.user_id = ?", current_user.id).order('id DESC').group(:group_id)
-    @blockchain = @blockchain.paginate(:page => params[:page], :per_page => 6);
+    @blockchain = @blockchain.paginate(:page => params[:page], :per_page => 4);
   end
 
   #Validação do bloco

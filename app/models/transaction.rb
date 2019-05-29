@@ -27,9 +27,7 @@ class Transaction < ApplicationRecord
       block_transaction.data = I18n.l Date.today
       block_transaction.horario = I18n.l Time.now, :format => :horario
 
-      if block_transaction.save
-        puts"Transação salva"
-      end
+      block_transaction.save
     end
   end
 end

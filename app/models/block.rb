@@ -51,10 +51,11 @@ class Block < ApplicationRecord
     block.new_transactions = transactions
 
     if block.save
-      puts"Novo bloco adicionado!"
+      return block
+    else
+      block = nil
+      return nil
     end
-    return block
-    
   end
 
   def calc_hash( block, nonce=0 )
@@ -67,7 +68,9 @@ class Block < ApplicationRecord
   end
 
   def set_transactions
-    transaction = Transaction.generate(self, new_transactions)
+    if !(self.nil?)
+      transaction = Transaction.generate(self, new_transactions)
+    end
   end
         
 end

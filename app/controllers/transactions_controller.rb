@@ -24,19 +24,18 @@ class TransactionsController < ApplicationController
 
       if fist_transaction.count == 0
         @block = @block.first( [transaction_params] )
-        new_block_in_blockchain = Blockchain.validation_block( @block, current_user )
-        new_block_in_blockchain =  verification_result(new_block_in_blockchain)
+        new_block_in_blockchain = Blockchain.validation_save_block(@block, current_user)
+
       else
         @block = @block.next( Block.last, [transaction_params] )
-        new_block_in_blockchain = Blockchain.validation_block( @block, current_user )
-        new_block_in_blockchain =  verification_result(new_block_in_blockchain)
+        new_block_in_blockchain = Blockchain.validation_save_block(@block, current_user)
       end
 
       respond_to do |format|
         if new_block_in_blockchain
-          format.html { redirect_to "/blockchain" , notice: 'Queijo cadastrado com sucesso.' }
+          format.html { redirect_to "/blockchain", notice: 'Queijo cadastrado com sucesso.' }
         else
-          format.html { render :new, notice: 'Erro ao validar cadastro!'}
+          format.html { redirect_to "/blockchain", alert: 'Erro ao validar cadastro!'}
         end
       end
   
@@ -59,14 +58,5 @@ class TransactionsController < ApplicationController
       # Never trust parameters from the scary internet, only allow the white list through.
       def transaction_params
         params.require(:transaction).permit(:from, :to, :what, :qty, :block_id, :latitude, :longitude, :pais, :uf, :cidade, :bairro, :rua, :numero, :cep, :data, :horario, :endereco, :fabricacao, :validade, :tipo, :empresa) 
-      end
-
-      def verification_result(blockchain)
-        if blockchain[0]
-          return true       
-
-        else   
-          return false       
-        end
       end
 end

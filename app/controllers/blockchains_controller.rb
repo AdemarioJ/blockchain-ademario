@@ -19,8 +19,8 @@ class BlockchainsController < ApplicationController
         groups = Block.joins(:blockchains).where("blocks.id = ?", blocks.block_id )
         blockchain = Blockchain.new
         @block = Block.new
-        @block = @block.next( Block.last, [informations["transaction"]], groups[0].group )
-        new_block_in_blockchain = Blockchain.validation_block( @block )
+        @block = @block.next( Block.last, [informations["transaction"]], groups[0].group_id )
+        new_block_in_blockchain = Blockchain.validation_block( @block, Blockchain.find_by(block_id: groups[0].id).user )
         verification_result(new_block_in_blockchain)
 
     else
@@ -48,6 +48,9 @@ class BlockchainsController < ApplicationController
   
   def detail
     @blockchain = Block.joins(:blockchains).where("block_id = ?", params[:id]).order('id DESC').group(:group_id)
+    unless !@blockchain.empty?
+      redirect_to '/blockchain', alert: 'Queijo não encontrado'
+    end
     @blockchain = @blockchain.paginate(:page => params[:page], :per_page => 6);
   end
 
@@ -108,7 +111,7 @@ class BlockchainsController < ApplicationController
 
     def verification_result(blockchain)
       unless blockchain[0]
-        response = { status:false, message: "Bloco não foi válidado!"}
+        response = { status: false, message: "Bloco não foi válidado!"}
         return json_response(response)  
       end
 

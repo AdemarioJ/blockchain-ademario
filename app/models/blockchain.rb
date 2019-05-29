@@ -44,6 +44,19 @@ class Blockchain < ApplicationRecord
       return [false]
     end
   end
+
+  def self.validation_save_block(block, current_user)
+    if block.nil?
+      return false
+    else
+      result = validation_block( block, current_user )
+      if result[0]
+        return true       
+      else   
+        return false       
+      end 
+    end
+  end
   
   # Mineração
   def compute_proof_of_work( block, transactions, transactions_count, blockchain, difficulty = "0000" )
@@ -76,5 +89,7 @@ class Blockchain < ApplicationRecord
                 previous_hash.to_s )
     sha.hexdigest
   end
+
+
 
 end

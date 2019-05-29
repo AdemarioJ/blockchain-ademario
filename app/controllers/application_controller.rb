@@ -32,7 +32,7 @@ class ApplicationController < ActionController::Base
   
     def verify_root_access!
       unless current_user.root?
-        redirect_to '/blockchain', notice: 'Você não tem permissão para executar esta ação.'
+        redirect_to '/blockchain', alert: 'Você não tem permissão para executar esta ação.'
       end
     end
   

@@ -30,4 +30,15 @@ class Transaction < ApplicationRecord
       block_transaction.save
     end
   end
+
+  def self.generate_genesis(block)
+      block_transaction = Transaction.new
+      block_transaction.block_id = block.id
+      block_transaction.pais = "Brasil"
+      block_transaction.data = I18n.l Date.today
+      block_transaction.horario = I18n.l Time.now, :format => :horario
+
+      block_transaction.save
+  end
+
 end

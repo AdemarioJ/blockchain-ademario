@@ -23,9 +23,11 @@ class TransactionsController < ApplicationController
       new_block_in_blockchain = nil
 
       if fist_transaction.count == 0
-        @block = @block.first( [transaction_params] )
+        @block = @block.first(  )
         new_block_in_blockchain = Blockchain.validation_save_block(@block, current_user)
-
+      
+        @block = @block.next( Block.last, [transaction_params] )
+        new_block_in_blockchain = Blockchain.validation_save_block(@block, current_user)
       else
         @block = @block.next( Block.last, [transaction_params] )
         new_block_in_blockchain = Blockchain.validation_save_block(@block, current_user)
@@ -43,6 +45,31 @@ class TransactionsController < ApplicationController
     
     def show
       @blockchain = Block.all 
+    end
+
+    def set_block_genesis
+      transaction = Transaction.new
+      transaction.from = nil
+      transaction.to = nil
+      transaction.what = nil
+      transaction.qty = nil
+      transaction.block_id = nil
+      transaction.latitude = nil
+      transaction.longitude = nil
+      transaction.pais = nil
+      transaction.uf = nil
+      transaction.cidade = nil
+      transaction.bairro = nil
+      transaction.rua = nil
+      transaction.numero = nil
+      transaction.cep = nil
+      transaction.data = nil
+      transaction.horario = nil
+      transaction.endereco = nil
+      transaction.fabricacao = nil
+      transaction.validade = nil
+      transaction.tipo = nil
+      transaction.empresa =nil
     end
     
     private

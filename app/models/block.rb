@@ -8,16 +8,7 @@ class Block < ApplicationRecord
 
   after_save :set_transactions
 
-  def first( args )    # Cria o genesis 
-    ##  note: allow/support splat-* for now for convenience (auto-wraps args into array)
-    if args.size == 1 && args[0].is_a?( Array )
-      transactions = args[0]   ## "unwrap" array in array
-    else
-      transactions = args      ## use "auto-wrapped" splat array
-    end
-    ## uses index zero (0) and arbitrary previous_hash ('0')
-    ## note: pass along (optional) custom timestamp (e.g. used for 1637 etc.)
-
+  def first    # Cria o genesis 
     new_block( 0, transactions )
   end
   
@@ -68,7 +59,9 @@ class Block < ApplicationRecord
   end
 
   def set_transactions
-    if !(self.nil?)
+    if Block.all.count == 1 && !(self.nil?)   
+      transaction = Transaction.generate_genesis(self)
+    elsif !(self.nil?)  
       transaction = Transaction.generate(self, new_transactions)
     end
   end

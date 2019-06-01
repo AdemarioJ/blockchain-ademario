@@ -4,7 +4,7 @@ class BlockchainsController < ApplicationController
   skip_before_action :authenticate_user!, :only => [:update_informations, :get_transactions_block]
   
   def index
-    @blockchain = Block.joins(:blockchains).where("blockchains.user_id = ?", current_user.id).order('id DESC').group(:group_id)
+    @blockchain = Block.joins(:blockchains).where("blockchains.user_id = ? && blockchains.index != 0", current_user.id).order('id DESC').group(:group_id)
     @blockchain = @blockchain.paginate(:page => params[:page], :per_page => 4);
   end
 
@@ -47,11 +47,15 @@ class BlockchainsController < ApplicationController
   end
   
   def detail
-    @blockchain = Block.joins(:blockchains).where("block_id = ?", params[:id]).order('id DESC').group(:group_id)
-    unless !@blockchain.empty?
+    if params[:id] != "1" || !(params[:id].present?)
+      @blockchain = Block.joins(:blockchains).where("block_id = ?", params[:id]).order('id DESC').group(:group_id)
+      unless !@blockchain.empty?
+        redirect_to '/blockchain', alert: 'Queijo não encontrado'
+      end
+      @blockchain = @blockchain.paginate(:page => params[:page], :per_page => 6);
+    else
       redirect_to '/blockchain', alert: 'Queijo não encontrado'
     end
-    @blockchain = @blockchain.paginate(:page => params[:page], :per_page => 6);
   end
 
   def get_transactions_block
@@ -110,6 +114,8 @@ class BlockchainsController < ApplicationController
     end
 
     def verification_result(blockchain)
+      p "______________________________________________"+blockchain
+      asdasd
       unless blockchain[0]
         response = { status: false, message: "Bloco não foi válidado!"}
         return json_response(response)  

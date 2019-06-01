@@ -7,17 +7,21 @@ class Blockchain < ApplicationRecord
   def self.validation_block(block, current_user)
     transactions = Transaction.where("block_id = ?", block.id)
     transactions_count = transactions.count
-
     last_block = Blockchain.where("user_id = ?", current_user.id).last
     blockchain = Blockchain.new 
     blockchain.previous_hash = last_block.nil? ? '0000000000000000000000000000000000000000000000000000000000000000' : last_block.hash_id
     proof_of_work = blockchain.compute_proof_of_work(block, transactions, transactions_count, blockchain) #Gera uma Hash de identificação do bloco
-    blockchain.nonce = proof_of_work[1]
-    blockchain.hash_id = proof_of_work[2]
 
+    #Verifica se o hash_id foi validado, se sim insira na blockchain
     if proof_of_work[0]
+<<<<<<< HEAD
       #Inserindo na blockchain
       new_block_in_blockchain = Blockchain.set_block_in_blockchain(block, transactions, transactions_count, blockchain, current_user, last_block)
+=======
+      blockchain.nonce = proof_of_work[1]
+      blockchain.hash_id = proof_of_work[2]
+      new_block_in_blockchain = Blockchain.set_block_in_blockchain(block, transactions, transactions_count, blockchain, current_user)
+>>>>>>> 242b1feed98a7334e2a80df0201eea8f7be34b50
       return new_block_in_blockchain
     else
       return false

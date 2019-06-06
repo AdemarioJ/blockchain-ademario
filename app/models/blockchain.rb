@@ -3,26 +3,21 @@ class Blockchain < ApplicationRecord
   belongs_to :user
   belongs_to :block
 
+
   # Válidação do bloco
   def self.validation_block(block, current_user)
     transactions = Transaction.where("block_id = ?", block.id)
     transactions_count = transactions.count
     last_block = Blockchain.where("user_id = ?", current_user.id).last
-    blockchain = Blockchain.new 
+    blockchain = Blockchain.new
     blockchain.previous_hash = last_block.nil? ? '0000000000000000000000000000000000000000000000000000000000000000' : last_block.hash_id
     proof_of_work = blockchain.compute_proof_of_work(block, transactions, transactions_count, blockchain) #Gera uma Hash de identificação do bloco
 
     #Verifica se o hash_id foi validado, se sim insira na blockchain
     if proof_of_work[0]
-<<<<<<< HEAD
       #Inserindo na blockchain
-      new_block_in_blockchain = Blockchain.set_block_in_blockchain(block, transactions, transactions_count, blockchain, current_user, last_block)
-=======
-      blockchain.nonce = proof_of_work[1]
       blockchain.hash_id = proof_of_work[2]
-      new_block_in_blockchain = Blockchain.set_block_in_blockchain(block, transactions, transactions_count, blockchain, current_user)
->>>>>>> 242b1feed98a7334e2a80df0201eea8f7be34b50
-      return new_block_in_blockchain
+      return Blockchain.set_block_in_blockchain(block, transactions, transactions_count, blockchain, current_user, last_block)
     else
       return false
     end
@@ -41,23 +36,7 @@ class Blockchain < ApplicationRecord
     create_blockchain.block_id = block.id
     create_blockchain.user_id = current_user.id
 
-    if create_blockchain.index == '0'   
-      create_blockchain.save
-      puts "__ Bloco Gênese gerado __"
-      return [true, create_blockchain]
-    elsif (Block.last.index.to_i + 1 != create_blockchain.index.to_i)
-      puts 'invalid index'
-      return [false]
-    elsif (last_block.hash_id != create_blockchain.previous_hash)
-      puts 'invalid previoushash'
-      return [false]
-    elsif (blockchain.hash_id != create_blockchain.hash_id)
-      puts 'invalid hash: ' + blockchain.hash_id + ' ' + create_blockchain.hash_id
-      return [false]
-    end
-
-    create_blockchain.save
-    return [true, create_blockchain]
+    return Blockchain.new_block_is_valid(create_blockchain, last_block, blockchain)
 
   end
 
@@ -106,5 +85,35 @@ class Blockchain < ApplicationRecord
     sha.hexdigest
   end
 
+  def replace_chain(new_blocks)
+    if (isValidChain(newBlocks) && newBlocks.length > blockchain.length)
+      puts 'Received blockchain is valid. Replacing current blockchain with received blockchain'
+      blockchain = newBlocks
+      broadcast(responseLatestMsg())
+    else
+      puts 'Received blockchain invalid'
+
+    end
+  end
+
+  def self.new_block_is_valid(create_blockchain, last_block, blockchain)
+    if create_blockchain.index == '0'   
+      create_blockchain.save
+      puts "__ Bloco Gênese gerado __"
+      return [true, create_blockchain]
+    elsif (Block.last.index.to_i + 1 != create_blockchain.index.to_i)
+      puts 'invalid index'
+      return [false]
+    elsif (last_block.hash_id != create_blockchain.previous_hash)
+      puts 'invalid previoushash'
+      return [false]
+    elsif (blockchain.hash_id != create_blockchain.hash_id)
+      puts 'invalid hash: ' + blockchain.hash_id + ' ' + create_blockchain.hash_id
+      return [false]
+    end
+
+    create_blockchain.save
+    return [true, create_blockchain]
+  end
 
 end

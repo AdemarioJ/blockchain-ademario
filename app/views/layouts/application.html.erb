@@ -34,9 +34,12 @@
         <li class="nav-item">
           <a class="nav-link " href="/blockchain">Rede Blockchain</a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link" href="/transactions/new">Novo Queijo</a>
-        </li>
+        <% if !current_user.root? %>
+          <li class="nav-item">
+            <a class="nav-link" href="/transactions/new">Novo Queijo</a>
+          </li>
+        <% end %>
+
       </ul>
       <ul class="navbar-nav ml-auto">
         <li class="nav-item ">

@@ -5,6 +5,10 @@ class BlockchainsController < ApplicationController
   
   def index
     @blockchain = Block.joins(:blockchains).where("blockchains.user_id = ? && blockchains.index != 0", current_user.id).order('id DESC').group(:group_id)
+    unless !current_user.root?
+      @blockchain = Block.joins(:blockchains).all.order('id DESC').group(:group_id)
+    end
+    
     @blockchain = @blockchain.paginate(:page => params[:page], :per_page => 4);
   end
 
@@ -47,7 +51,7 @@ class BlockchainsController < ApplicationController
   end
   
   def detail
-    if params[:id] != "1" || !(params[:id].present?)
+    if (params[:id] != "1" || !(params[:id].present?)) || current_user.root?
       @blockchain = Block.joins(:blockchains).where("block_id = ?", params[:id]).order('id DESC').group(:group_id)
       unless !@blockchain.empty?
         redirect_to '/blockchain', alert: 'Queijo não encontrado'

@@ -3,6 +3,8 @@ class TransactionsController < ApplicationController
 
     require 'rqrcode'
     require 'io/console'
+    require 'uri'
+    require 'net/http'
   
     def index
       
@@ -35,6 +37,7 @@ class TransactionsController < ApplicationController
 
       respond_to do |format|
         if new_block_in_blockchain
+          network_blockchain(Blockchain.last.hash_id)
           format.html { redirect_to "/blockchain", notice: 'Queijo cadastrado com sucesso.' }
         else
           format.html { redirect_to "/blockchain", alert: 'Erro ao validar cadastro!'}
@@ -86,4 +89,23 @@ class TransactionsController < ApplicationController
       def transaction_params
         params.require(:transaction).permit(:from, :to, :what, :qty, :block_id, :latitude, :longitude, :pais, :uf, :cidade, :bairro, :rua, :numero, :cep, :data, :horario, :endereco, :fabricacao, :validade, :tipo, :empresa) 
       end
+
+
+      def network_blockchain(hash_id)
+        url = URI("http://localhost:3001/mineBlock")
+        
+        http = Net::HTTP.new(url.host, url.port)
+
+        request = Net::HTTP::Post.new(url)
+        request["Content-Type"] = 'application/json'
+        request.body = {hash_id: hash_id}.to_json
+
+        response = http.request(request)
+        
+        if response.kind_of? Net::HTTPSuccess
+          puts"Bloco enviado para a rede com sucesso."
+        end
+
+      end
 end
+

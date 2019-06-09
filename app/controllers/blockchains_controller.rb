@@ -118,8 +118,6 @@ class BlockchainsController < ApplicationController
     end
 
     def verification_result(blockchain)
-      p "______________________________________________"+blockchain
-      asdasd
       unless blockchain[0]
         response = { status: false, message: "Bloco não foi válidado!"}
         return json_response(response)  
